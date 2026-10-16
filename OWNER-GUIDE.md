@@ -38,7 +38,7 @@ If email is not configured or delivery fails, the enquiry remains in the dashboa
 
 ## More people later
 
-Once Firebase is connected, each person uses their own configured account. In People and access, the owner grants a role to an existing Firebase Authentication account. Granting a role does not send an invitation email. Editors work on drafts, publishers can publish, and enquiry operators follow up private requests. You cannot revoke your own owner account from this screen.
+Once Firebase is connected, each person uses their own approved Google account through **Admin login** in the website footer. Visitors browse without logging in. In People and access, the owner grants a role to an existing Firebase Authentication account. Signing in alone does not grant staff permissions. Granting a role does not send an invitation email. Editors work on drafts, publishers can publish, and enquiry operators follow up private requests. You cannot revoke your own owner account from this screen.
 
 The local workspace has one development owner. It does not simulate real Firebase staff accounts. Cloud memberships and revocation must be verified before other staff start using the system.
 

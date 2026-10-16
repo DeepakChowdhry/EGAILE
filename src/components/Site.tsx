@@ -3,6 +3,7 @@ import type { ContentPage, SiteContent, Section } from '@/lib/content';
 import { pagePath } from '@/lib/content';
 import { Header } from './Header';
 import { Hero } from './Hero';
+import { TrafficAnalytics } from './TrafficAnalytics';
 export function Shell({
   site,
   children,
@@ -26,6 +27,22 @@ export function Shell({
       <Header site={site} />
       <main id="main">{children}</main>
       <Footer site={site} />
+      {!preview && (
+        <TrafficAnalytics
+          publicPaths={[
+            '/',
+            '/services',
+            '/industries',
+            '/approach',
+            '/about',
+            '/contact',
+            '/insights',
+            '/privacy',
+            '/cookies',
+            ...site.pages.filter((p) => p.published).map(pagePath),
+          ]}
+        />
+      )}
     </div>
   );
 }
@@ -50,7 +67,7 @@ export function Footer({ site }: { site: SiteContent }) {
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/cookies">Cookies</Link>
-          <Link href="/admin">Manage website ↗</Link>
+          <Link href="/admin/login">Admin login ↗</Link>
         </div>
       </div>
       <div className="container footer-legal">

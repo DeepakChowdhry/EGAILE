@@ -6,14 +6,15 @@
 
 The public website and protected admin workspace are implemented and running locally. The six consultancy services, SME/IT-company content, higher contrast, responsive hero, publishing workflow, content recovery, page templates, menus/SEO, validated image upload and private enquiry handling work in this build.
 
-Firebase adapters, individual accounts, membership roles, server session verification, deny-by-default client rules, delivery workers and deployment templates are supplied. Firebase cloud services are not connected: the founder confirmed that a separate EGAILE project has not yet been created. Local operation uses a private SQLite document adapter, with an explicit development-only owner shortcut and no shared production password.
+Firebase project `egaile-c28ac` has now been created on Spark. Google is the only enabled sign-in provider. The Standard Firestore database is in `asia-south1` (Mumbai), with deny-all client rules verified in the console. Analytics property `559286990` and stream `16144052641` are linked, the domain is `https://www.egaile.com`, business country is India and all four optional account sharing choices are disabled. Enhanced measurement is off. The cloud backend, first owner membership and live measurement are not yet connected to this local application. Local operation continues through the explicit development-only document adapter.
 
 ## Verification completed
 
 - Next.js 16.4.2 production build and TypeScript validation pass.
+- Three new traffic-policy tests pass: production/domain gating, private-route exclusion and consent validation/expiry. No live visitor tracking test has been performed; tracking is deliberately disabled locally and pending launch.
 - Firebase delivery and recovery function bundle compiles.
 - Fourteen tests pass against Google's local Auth and Firestore emulators, including concurrent edits, private drafts, restoration, redirect recovery, duplicate enquiry submission, atomic rollback, invalid data, rate limits, roles, notification retries/leases, production fallback denial, active membership, revoked sessions and direct database access denial.
-- The standard local suite passes eleven tests and skips three emulator-only checks when emulators are absent.
+- The standard local suite now passes fourteen tests and skips three emulator-only checks when emulators are absent.
 - HTTP checks pass for public routes, 404 handling, unauthenticated private access, cross-origin mutation denial, draft isolation, stale edits, valid optimised image upload, invalid-file rejection, enquiry deduplication, state transitions and sign-out.
 - Browser review confirms the local login, dashboard, saved draft, private preview, unchanged public content before publication and explicit publication with version verification. Desktop preview at 1440 CSS pixels and mobile preview at 390 pixels show no horizontal overflow.
 - The production dependency audit reports zero advisories after pinning the patched gRPC transport dependency. This is not a claim that an audit proves the application free of defects.
@@ -22,7 +23,7 @@ No availability, traffic capacity, recovery-time or real cloud-delivery target i
 
 ## Before public launch
 
-Create separate EGAILE staging/production Firebase projects, confirm regions and ownership, review Blaze billing and credits, configure Firebase Auth, bootstrap the first owner, configure Storage/App Check/IAM/secrets and validate the hosting proxy's trusted IP header. Configure and deploy the email worker and recovery schedule, verify a real controlled delivery and complete the restore exercise.
+Prepare a separate staging environment, review Blaze billing and credits, authorise the server identity, connect the Firebase configuration, bootstrap the first owner, configure Storage/App Check/IAM/secrets and validate the hosting proxy's trusted IP header. Configure and deploy the email worker and recovery schedule, verify a real controlled delivery and complete the restore exercise. Validate consent and Analytics in the deployed environment before enabling measurement. Review any additional applicable Data Processing Terms separately; they have not been accepted by this implementation.
 
 Backups, retention automation, monitoring alerts, MFA/owner account protection, actual quota/budget controls and real-load tests need configuration and verification in that project. Final public business/contact details and the privacy notice need approval. Public enquiry acceptance is blocked in production until the launch flag is explicitly enabled. Domain/DNS and billing have not been changed.
 

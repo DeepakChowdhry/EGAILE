@@ -1,6 +1,6 @@
 # EGAILE website
 
-Working development build for EGAILE's IT consultancy website. React and Next.js provide the public pages and admin workspace; Firebase Authentication, Firestore and Storage are the cloud adapters. There is no EGAILE Firebase cloud project connected yet.
+Working development build for EGAILE's IT consultancy website. React and Next.js provide the public pages and admin workspace; Firebase Authentication, Firestore and Storage are the cloud adapters. Firebase project `egaile-c28ac` now exists with Google-only authentication, a private Mumbai Firestore database and a linked Analytics web stream. The local backend is not connected yet; see `FIREBASE-SETUP.md`.
 
 The supplied repository was empty. This implementation reuses suitable components from the earlier local EGAILE prototype, replaces the older manufacturing-led content with the approved cross-industry offer, and replaces its SQL backend with a document-store contract and Firebase adapter. The local development adapter uses SQLite and is deliberately disabled in production. No earlier passwords, private database, environment credentials or client records were copied.
 
@@ -28,7 +28,8 @@ Open `http://127.0.0.1:3010`. The admin entry is `/admin/login`. The explicit lo
 - Page templates, homepage section arrangement, menu/contact/SEO editing, image optimisation, upload validation and alt text/decorative designation.
 - Durable enquiries with optional service, industry and process context, historical labels, idempotent capture and atomic notification tasks.
 - Private enquiry follow-up with bounded status transitions, displayed-record CSV export, deletion permissions and failed-notification requeue.
-- Firebase email/password and optional Google sign-in, secure server sessions, active staff membership checks and owner/editor/publisher/operator permissions.
+- Google-only admin sign-in, secure server sessions, active staff membership checks and owner/editor/publisher/operator permissions. Visitors do not need an account.
+- Optional consent-based public page measurement, with domain/environment controls, no private routes or query strings, and a withdrawal control.
 - Firebase background-delivery trigger and scheduled recovery worker, configurable email adapter and future payment/CRM adapter contracts.
 - GitHub verification workflow and Firebase deployment templates. Deployment has not been performed.
 
@@ -53,7 +54,7 @@ The demo project is not a live Google Cloud project. Tests include concurrency, 
 
 ## Connect Firebase
 
-1. Create separate EGAILE staging and production projects under founder-controlled ownership. Do not reuse Knovexa data, users or secrets.
+1. EGAILE project `egaile-c28ac` has been created under founder-controlled ownership. Keep staging separate before release; do not reuse Knovexa data, users or secrets.
 2. Confirm regions, billing exposure and actual Google AI Pro credit eligibility. Firebase App Hosting, Functions and Cloud Storage need appropriate billing configuration; no assumption of permanently free operation is made.
 3. Register the web app and configure the public Firebase client values in `.env.example`. These public values are different from private server credentials. Set both backend variables to `firebase` and disable local owner mode.
 4. Configure Firebase Authentication sign-in methods, authorised domains, owner protection and account recovery. Create the founder's account through the Firebase console or the approved sign-in flow. With authorised ADC credentials and the project ID set, run `npm run owner:bootstrap -- owner@example.com`. It grants only the first owner and never prints credentials or sends an invitation.

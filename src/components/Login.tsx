@@ -3,11 +3,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 export function Login({ local }: { local: boolean }) {
-  const [error, setError] = useState(''),
-    [notice, setNotice] = useState(''),
-    [busy, setBusy] = useState(false),
-    [show, setShow] = useState(false),
-    [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
   const router = useRouter();
   async function exchange(idToken?: string) {
     const res = await fetch('/api/owner', {
@@ -15,19 +12,13 @@ export function Login({ local }: { local: boolean }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'login', ...(idToken ? { idToken } : {}) }),
     });
-    if (!res.ok)
-      throw new Error(
-        'Sign-in could not be completed. Check your account and EGAILE staff access.',
-      );
+    if (!res.ok) throw new Error('Sign-in could not be completed. Check your EGAILE staff access.');
     router.push('/admin');
     router.refresh();
   }
-  async function login(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function login() {
     setBusy(true);
     setError('');
-    setNotice('');
-    const fd = new FormData(event.currentTarget);
     try {
       if (local) await exchange();
       else {
@@ -37,11 +28,9 @@ export function Login({ local }: { local: boolean }) {
         ]);
         const auth = firebaseClient();
         await f.setPersistence(auth, f.inMemoryPersistence);
-        const credential = await f.signInWithEmailAndPassword(
-          auth,
-          email,
-          String(fd.get('password') || ''),
-        );
+        const provider = new f.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const credential = await f.signInWithPopup(auth, provider);
         try {
           await exchange(await credential.user.getIdToken());
         } finally {
@@ -52,50 +41,8 @@ export function Login({ local }: { local: boolean }) {
       setError(
         e instanceof Error && e.message.startsWith('Firebase is not')
           ? e.message
-          : 'Sign-in could not be completed. Check your details and staff access.',
+          : 'Google sign-in could not be completed. Only approved EGAILE staff can enter.',
       );
-    } finally {
-      setBusy(false);
-    }
-  }
-  async function reset() {
-    if (!email) {
-      setError('Enter your email address first.');
-      return;
-    }
-    setBusy(true);
-    setError('');
-    try {
-      const [{ firebaseClient }, { sendPasswordResetEmail }] = await Promise.all([
-        import('@/lib/firebase-client'),
-        import('firebase/auth'),
-      ]);
-      await sendPasswordResetEmail(firebaseClient(), email);
-    } catch {
-      /* Keep recovery response generic. */
-    } finally {
-      setNotice('If an eligible account exists, recovery instructions will be sent.');
-      setBusy(false);
-    }
-  }
-  async function google() {
-    setBusy(true);
-    setError('');
-    try {
-      const [{ firebaseClient }, f] = await Promise.all([
-        import('@/lib/firebase-client'),
-        import('firebase/auth'),
-      ]);
-      const auth = firebaseClient();
-      await f.setPersistence(auth, f.inMemoryPersistence);
-      const credential = await f.signInWithPopup(auth, new f.GoogleAuthProvider());
-      try {
-        await exchange(await credential.user.getIdToken());
-      } finally {
-        await f.signOut(auth);
-      }
-    } catch {
-      setError('Google sign-in could not be completed. Only invited staff can enter.');
     } finally {
       setBusy(false);
     }
@@ -106,67 +53,27 @@ export function Login({ local }: { local: boolean }) {
         <Link href="/" className="login-brand">
           EGAILE<span>.</span>
         </Link>
-        <p className="eyebrow">YOUR WEBSITE WORKSPACE</p>
+        <p className="eyebrow">ADMIN WORKSPACE</p>
         <h1>Make it yours.</h1>
-        <p>Update your website and keep conversations moving.</p>
-        <form onSubmit={login}>
-          {local ? (
-            <div className="local-notice">
-              <strong>Local development workspace</strong>
-              <p>
-                Changes and test enquiries are saved on this computer. Firebase is not connected.
-                This shortcut is disabled in production.
-              </p>
-            </div>
-          ) : (
-            <>
-              <label className="field">
-                Email address
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="username"
-                  required
-                  maxLength={254}
-                />
-              </label>
-              <label className="field">
-                Password
-                <input
-                  name="password"
-                  type={show ? 'text' : 'password'}
-                  autoComplete="current-password"
-                  required
-                  maxLength={300}
-                />
-              </label>
-              <label className="editor-check">
-                <input type="checkbox" checked={show} onChange={(e) => setShow(e.target.checked)} />
-                Show password
-              </label>
-            </>
-          )}
-          {error && (
-            <p role="alert" className="form-error">
-              {error}
+        <p>Sign in with your approved Google account to manage the website.</p>
+        {local && (
+          <div className="local-notice">
+            <strong>Local development workspace</strong>
+            <p>
+              Changes and test enquiries are saved on this computer. Cloud sign-in is not connected
+              here yet. This shortcut is disabled in production.
             </p>
-          )}
-          {notice && <p role="status">{notice}</p>}
-          <button className="button primary" disabled={busy}>
-            {busy ? 'Signing in…' : local ? 'Open local workspace ↗' : 'Sign in ↗'}
-          </button>
-        </form>
-        {!local && (
-          <div className="login-options">
-            <button className="editor-button" disabled={busy} onClick={reset}>
-              Forgot password?
-            </button>
-            <button className="editor-button" disabled={busy} onClick={google}>
-              Continue with Google
-            </button>
           </div>
         )}
+        {error && (
+          <p role="alert" className="form-error">
+            {error}
+          </p>
+        )}
+        <button className="button primary" disabled={busy} onClick={login}>
+          {busy ? 'Signing in…' : local ? 'Open local workspace ↗' : 'Continue with Google ↗'}
+        </button>
+        <p>Visitors can browse the public website without an account.</p>
         <Link href="/" className="text-link">
           Back to the website
         </Link>

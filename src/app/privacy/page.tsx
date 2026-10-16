@@ -33,9 +33,13 @@ export default async function Page() {
           </p>
           <h2>Cookies and tracking</h2>
           <p>
-            No visitor analytics or marketing subscription is enabled. The owner dashboard uses an
-            essential HTTP-only session cookie, which expires after eight hours. Draft previews
-            require that session.
+            Local development does not send visitor analytics. When enabled on the public EGAILE
+            domain, optional Google Analytics measures approved public page visits only after you
+            choose Allow analytics. Declining does not affect browsing. Cookie preferences let you
+            withdraw permission; your preference is stored in this browser for up to 180 days. Query
+            strings and form contents are excluded from measurement. Analytics is not a count of
+            every request or bot. The admin dashboard uses an essential HTTP-only session cookie,
+            which expires after eight hours. Draft previews require that session.
           </p>
           <h2>Before public launch</h2>
           <p>

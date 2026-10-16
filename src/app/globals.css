@@ -2525,3 +2525,54 @@ h3 {
 .preview-stage iframe {
   box-shadow: 0 5px 25px #10243c20;
 }
+/* Optional visitor measurement: equal-choice consent and persistent withdrawal. */
+.traffic-preferences {
+  position: fixed;
+  bottom: 18px;
+  left: 18px;
+  z-index: 60;
+  max-width: calc(100vw - 36px);
+}
+.traffic-settings {
+  background: #fff;
+  color: #101a25;
+  border: 1px solid #64748b;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.traffic-panel {
+  margin-bottom: 12px;
+  padding: 24px;
+  max-width: 440px;
+  background: #fff;
+  color: #101a25;
+  border: 1px solid #64748b;
+  box-shadow: 0 8px 32px #0003;
+}
+.traffic-panel h2 {
+  font-size: 23px;
+  color: #101a25;
+  margin: 0 0 12px;
+}
+.traffic-panel p {
+  color: #263646;
+  line-height: 1.6;
+}
+.traffic-panel a {
+  color: #074db3;
+  text-decoration: underline;
+}
+.traffic-panel > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.traffic-panel button {
+  padding: 10px 14px;
+  background: #fff;
+  color: #101a25;
+  border: 1px solid #263646;
+  border-radius: 3px;
+}

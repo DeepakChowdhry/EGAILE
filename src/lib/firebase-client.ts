@@ -9,7 +9,12 @@ export function firebaseClient() {
     );
   const app =
     getApps()[0] ||
-    initializeApp({ apiKey, projectId, authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN });
+    initializeApp({
+      apiKey,
+      projectId,
+      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+      appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    });
   const auth = getAuth(app);
   if (
     process.env.NODE_ENV === 'development' &&
