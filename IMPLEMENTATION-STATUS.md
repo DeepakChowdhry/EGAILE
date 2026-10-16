@@ -6,12 +6,13 @@
 
 The public website and protected admin workspace are implemented and running locally. The six consultancy services, SME/IT-company content, higher contrast, responsive hero, publishing workflow, content recovery, page templates, menus/SEO, validated image upload and private enquiry handling work in this build.
 
-Firebase project `egaile-c28ac` has now been created on Spark. Google is the only enabled sign-in provider. The Standard Firestore database is in `asia-south1` (Mumbai), with deny-all client rules verified in the console. Analytics property `559286990` and stream `16144052641` are linked, the domain is `https://www.egaile.com`, business country is India and all four optional account sharing choices are disabled. Enhanced measurement is off. The cloud backend, first owner membership and live measurement are not yet connected to this local application. Local operation continues through the explicit development-only document adapter.
+Firebase project `egaile-c28ac` is connected on Spark. Google is the only enabled sign-in provider. The Standard Firestore database is in `asia-south1` (Mumbai), with deny-all client rules verified in the console. Analytics property `559286990` and stream `16144052641` are linked, the domain is `https://www.egaile.com`, business country is India and all four optional account sharing choices are disabled. Enhanced measurement is off. The configured local application now uses the Firestore backend, Google's local ADC and the approved founder owner membership; local-owner shortcut mode is disabled. Deployment and live measurement remain pending.
 
 ## Verification completed
 
 - Next.js 16.4.2 production build and TypeScript validation pass.
 - Three new traffic-policy tests pass: production/domain gating, private-route exclusion and consent validation/expiry. No live visitor tracking test has been performed; tracking is deliberately disabled locally and pending launch.
+- Real Firebase checks pass: verified Google founder identity, active owner role, successful admin sign-in, saved Firestore draft version 2, unknown staff denied, signed-out public page 200, private API 401 and admin login redirect. No public content was published during these checks. TypeScript validation also passes after the bootstrap update.
 - Firebase delivery and recovery function bundle compiles.
 - Fourteen tests pass against Google's local Auth and Firestore emulators, including concurrent edits, private drafts, restoration, redirect recovery, duplicate enquiry submission, atomic rollback, invalid data, rate limits, roles, notification retries/leases, production fallback denial, active membership, revoked sessions and direct database access denial.
 - The standard local suite now passes fourteen tests and skips three emulator-only checks when emulators are absent.

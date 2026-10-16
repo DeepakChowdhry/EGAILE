@@ -2,9 +2,11 @@
 
 ## Open your local website
 
-Double-click `Start-EGAILE.cmd` in this folder. Keep the terminal open while reviewing. Open `http://127.0.0.1:3010` and choose Manage website in the footer, or open `/admin/login`.
+Double-click `Start-EGAILE.cmd` in this folder. Keep the terminal open while reviewing. Open `http://127.0.0.1:3010` and choose **Admin login** in the footer, or open `/admin/login`.
 
-Choose Open local workspace. This is a clearly labelled development shortcut on your computer. It is not your future Firebase login. Local content persists on this computer; it is not automatically shared with another person or computer.
+On this configured computer, choose **Continue with Google** and sign in as `deepakchowdhry@gmail.com`. Real Firebase sign-in and your owner role are connected; drafts now persist in Firestore. Public visitors do not need an account. The website itself still runs only on this computer until deployment. Media uploads and enquiry email delivery need further cloud configuration.
+
+A fresh source download starts in the separate local demonstration mode unless Firebase settings and server credentials are configured. Never share credential files to move the project to another computer.
 
 ## Change your content
 

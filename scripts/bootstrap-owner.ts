@@ -6,17 +6,24 @@ async function main() {
       'Usage: set FIREBASE_PROJECT_ID and ADC, then npm run owner:bootstrap -- owner@example.com',
     );
   const { auth, db } = firebaseAdmin();
-  const user = await auth.getUserByEmail(email);
+  let user;
+  try {
+    user = await auth.getUserByEmail(email);
+  } catch (error) {
+    if (
+      !process.argv.includes('--create-account') ||
+      (error as { code?: string }).code !== 'auth/user-not-found'
+    )
+      throw error;
+    // Explicit provisioning only; no password, custom token or provider credential is generated.
+    user = await auth.createUser({ email });
+  }
   // Initial bootstrap cannot replace an existing owner; later changes go through the protected admin workflow.
   await db.runTransaction(async (tx) => {
     const existing = await tx.get(
-      db
-        .collection('memberships')
-        .where('roles', 'array-contains', 'owner')
-        .where('active', '==', true)
-        .limit(1),
+      db.collection('memberships').where('roles', 'array-contains', 'owner'),
     );
-    if (!existing.empty)
+    if (existing.docs.some((doc) => doc.data().active === true))
       throw new Error('An owner exists. Use the admin workspace to grant further access.');
     tx.set(db.collection('memberships').doc(user.uid), {
       email: user.email,

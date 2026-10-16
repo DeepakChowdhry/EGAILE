@@ -1,6 +1,6 @@
 # EGAILE website
 
-Working development build for EGAILE's IT consultancy website. React and Next.js provide the public pages and admin workspace; Firebase Authentication, Firestore and Storage are the cloud adapters. Firebase project `egaile-c28ac` now exists with Google-only authentication, a private Mumbai Firestore database and a linked Analytics web stream. The local backend is not connected yet; see `FIREBASE-SETUP.md`.
+Working development build for EGAILE's IT consultancy website. React and Next.js provide the public pages and admin workspace; Firebase Authentication, Firestore and Storage are the cloud adapters. Firebase project `egaile-c28ac` is connected on this computer with Google-only authentication, a private Mumbai Firestore database and the founder's active owner membership. Real sign-in and Firestore draft saving are verified. Analytics is configured but not collecting locally; media Storage and deployment remain pending. See `FIREBASE-SETUP.md`.
 
 The supplied repository was empty. This implementation reuses suitable components from the earlier local EGAILE prototype, replaces the older manufacturing-led content with the approved cross-industry offer, and replaces its SQL backend with a document-store contract and Firebase adapter. The local development adapter uses SQLite and is deliberately disabled in production. No earlier passwords, private database, environment credentials or client records were copied.
 
@@ -12,7 +12,7 @@ Use Node.js 24 LTS (minimum supported Node version 22.13). On Windows, double-cl
 npm ci
 ```
 
-Copy `.env.example` to `.env.local`, keeping the initial local settings. Then:
+For a fresh checkout only, copy `.env.example` to `.env.local` for local demonstration mode. Preserve the existing Firebase configuration on this configured computer. Then:
 
 ```sh
 npm run dev
