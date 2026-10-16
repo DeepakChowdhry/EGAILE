@@ -1,0 +1,27 @@
+name: Verify EGAILE
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npx firebase emulators:exec --project demo-egaile --only auth,firestore "node --import tsx --test tests/*.test.ts"
+        env:
+          EGAILE_BACKEND: firebase
+          FIREBASE_PROJECT_ID: demo-egaile
+          RATE_LIMIT_SECRET: synthetic-ci-rate-limit-key
+      - run: npm run functions:build
+      - run: npm run build

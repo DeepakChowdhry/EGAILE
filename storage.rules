@@ -1,0 +1,7 @@
+rules_version = '2';
+service firebase.storage {
+ match /b/{bucket}/o {
+  // Server-mediated upload and media delivery. Backup prefixes are never served by public routes.
+  match /{allPaths=**} { allow read, write: if false; }
+ }
+}

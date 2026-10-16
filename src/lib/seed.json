@@ -1,0 +1,292 @@
+{
+  "name": "EGAILE",
+  "tagline": "Better processes. Smarter business.",
+  "contactEmail": "",
+  "contactNote": "Describe the process, the friction and what you would like to improve. Please avoid confidential client data, source code and sensitive personal records.",
+  "hero": {
+    "eyebrow": "IT CONSULTANCY FOR SMEs",
+    "title": "Better processes.\nSmarter business.",
+    "description": "Find the gaps. Simplify the work. Put AI, automation and the right technology to work for your business.",
+    "image": "/hero.jpg",
+    "imageAlt": "An abstract illustration of connected layers and flowing light.",
+    "ctaLabel": "Start a conversation",
+    "ctaHref": "/contact",
+    "animation": true
+  },
+  "menu": [
+    {
+      "label": "Services",
+      "href": "/services"
+    },
+    {
+      "label": "Who we help",
+      "href": "/industries"
+    },
+    {
+      "label": "Our approach",
+      "href": "/approach"
+    },
+    {
+      "label": "About EGAILE",
+      "href": "/about"
+    }
+  ],
+  "seo": {
+    "title": "EGAILE | IT consultancy for SMEs",
+    "description": "Understand your processes, find the gaps and improve productivity with practical AI, automation and technology advisory."
+  },
+  "theme": "ocean",
+  "privacyVersion": "website-preview-v1",
+  "sections": [
+    {
+      "id": "10000000-0000-4000-8000-000000000001",
+      "type": "services",
+      "enabled": true,
+      "eyebrow": "HOW WE CAN HELP",
+      "title": "Start with the problem.\nFind the right improvement.",
+      "body": "Practical consulting for the way your business actually works.",
+      "linkLabel": "Explore all services",
+      "linkHref": "/services",
+      "items": []
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000002",
+      "type": "method",
+      "enabled": true,
+      "eyebrow": "A CLEAR WAY FORWARD",
+      "title": "Understand. Improve.\nMake it work.",
+      "body": "A process-first approach, with a useful outcome at every stage.",
+      "linkLabel": "See our approach",
+      "linkHref": "/approach",
+      "items": [
+        {
+          "title": "See the work clearly",
+          "body": "Understand the process, the systems and the handoffs."
+        },
+        {
+          "title": "Find the right opportunity",
+          "body": "Identify gaps and assess where AI, automation or simpler tools could help."
+        },
+        {
+          "title": "Put the change into practice",
+          "body": "Scope the next step, support adoption and review what improves."
+        }
+      ]
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000003",
+      "type": "spotlight",
+      "enabled": true,
+      "eyebrow": "FOR SMEs AND SOFTWARE COMPANIES",
+      "title": "Different industries.\nShared opportunities.",
+      "body": "From reporting and administration to coding and software delivery, find where the work can flow better.",
+      "linkLabel": "Explore who we help",
+      "linkHref": "/industries",
+      "items": [
+        {
+          "title": "Business operations",
+          "body": "Manual tasks, disconnected systems and repeated work."
+        },
+        {
+          "title": "Software delivery",
+          "body": "Coding, review, testing, documentation and releases."
+        },
+        {
+          "title": "Practical adoption",
+          "body": "Choose improvements your teams can use and maintain."
+        }
+      ]
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000004",
+      "type": "faq",
+      "enabled": true,
+      "eyebrow": "A USEFUL START",
+      "title": "You do not need\nthe answers yet.",
+      "body": "",
+      "linkLabel": "Start a conversation",
+      "linkHref": "/contact",
+      "items": [
+        {
+          "title": "Do we need to choose an AI tool first?",
+          "body": "No. We start with the process and the problem. A technology recommendation follows that understanding."
+        },
+        {
+          "title": "Can you work with our existing systems?",
+          "body": "The assessment considers existing tools, constraints and capabilities before proposing changes."
+        },
+        {
+          "title": "Are savings guaranteed?",
+          "body": "No. Measures and expected outcomes are agreed after establishing the current baseline."
+        }
+      ]
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000005",
+      "type": "cta",
+      "enabled": true,
+      "eyebrow": "YOUR NEXT STEP",
+      "title": "What would you like\nto work better?",
+      "body": "One process. A useful conversation. A clearer next step.",
+      "linkLabel": "Talk to EGAILE",
+      "linkHref": "/contact",
+      "items": []
+    }
+  ],
+  "pages": [
+    {
+      "id": "10000000-0000-4000-8000-000000000010",
+      "type": "service",
+      "slug": "process-gap-assessment",
+      "published": true,
+      "title": "Process & gap assessment",
+      "summary": "Understand where time, effort and value are being lost.",
+      "body": "Build a clear picture of how work happens today, where it slows down and what should change first.\n\nRepeated work, unclear handoffs and disconnected information can hide the real issue. A focused assessment brings the workflow and its dependencies into view.\n\nPossible measures: Manual effort, turnaround time, error rate and processing cost.\n\nScope and measures are agreed after understanding the process. These are consulting capabilities, not guaranteed savings.",
+      "deliverables": [
+        "Current-state process map: A shared view of the work, handoffs and systems.",
+        "Gap and opportunity register: Observed issues, evidence and questions to validate.",
+        "Prioritised next steps: Recommendations matched to value, feasibility and risk."
+      ],
+      "seoTitle": "Process & gap assessment | EGAILE",
+      "seoDescription": "Understand where time, effort and value are being lost."
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000011",
+      "type": "service",
+      "slug": "ai-opportunity-assessment",
+      "published": true,
+      "title": "AI opportunity assessment",
+      "summary": "Find practical AI opportunities with a clear business purpose.",
+      "body": "Assess where AI could help your business and what must be true before adoption.\n\nStart with business tasks and decisions, then assess fit, available data, feasibility and adoption needs. A tool should serve the process.\n\nPossible measures: Task effort, quality, review needs and the value of the proposed change.\n\nScope and measures are agreed after understanding the process. These are consulting capabilities, not guaranteed savings.",
+      "deliverables": [
+        "Opportunity assessment: Relevant use cases and the problem each addresses.",
+        "Feasibility and dependency review: Data, systems, people and implementation considerations.",
+        "Adoption roadmap: A prioritised route to a bounded experiment."
+      ],
+      "seoTitle": "AI opportunity assessment | EGAILE",
+      "seoDescription": "Find practical AI opportunities with a clear business purpose."
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000012",
+      "type": "service",
+      "slug": "workflow-automation",
+      "published": true,
+      "title": "Workflow automation",
+      "summary": "Reduce repetitive work and make handoffs more effective.",
+      "body": "Redesign the workflow before deciding which tasks to automate.\n\nManual transfers, reporting routines and repeated administration can slow teams down. Assess the whole flow before automating an isolated step.\n\nPossible measures: Manual processing time, handoff delay, errors and exceptions.\n\nScope and measures are agreed after understanding the process. These are consulting capabilities, not guaranteed savings.",
+      "deliverables": [
+        "Workflow redesign: A simpler future-state process.",
+        "Automation recommendation: Suitable tools and integration options.",
+        "Bounded pilot plan: Scope, ownership and practical measures."
+      ],
+      "seoTitle": "Workflow automation | EGAILE",
+      "seoDescription": "Reduce repetitive work and make handoffs more effective."
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000013",
+      "type": "service",
+      "slug": "software-delivery-productivity",
+      "published": true,
+      "title": "Software delivery productivity",
+      "summary": "Improve coding, review, testing and delivery workflows.",
+      "body": "Help your software teams deliver more effectively by improving the workflow and assessing the role of AI and better tools.\n\nCoding is one part of delivery. Planning, review queues, test cycles, documentation and release handoffs all affect how effectively a team works.\n\nPossible measures: Lead time, review effort, testing effort, quality and rework. Generated lines of code alone are not a productivity measure.\n\nScope and measures are agreed after understanding the process. These are consulting capabilities, not guaranteed savings.",
+      "deliverables": [
+        "Delivery workflow assessment: A view of bottlenecks, dependencies and rework.",
+        "AI and tool evaluation: Options for coding, review, testing and documentation.",
+        "Quality-aware improvement plan: Priorities and a bounded trial with relevant measures."
+      ],
+      "seoTitle": "Software delivery productivity | EGAILE",
+      "seoDescription": "Improve coding, review, testing and delivery workflows."
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000014",
+      "type": "service",
+      "slug": "tools-integration-advisory",
+      "published": true,
+      "title": "Tools & integration advisory",
+      "summary": "Make existing systems work better together.",
+      "body": "Understand your current tools and choose an integration approach that fits the business.\n\nOverlapping systems and manual data movement can create operational friction. Assess your current environment before adding another platform.\n\nPossible measures: Duplicate data entry, information delay, error rate and operating effort.\n\nScope and measures are agreed after understanding the process. These are consulting capabilities, not guaranteed savings.",
+      "deliverables": [
+        "Current-tool review: A practical inventory of systems and pain points.",
+        "Integration options: Potential connections and their dependencies.",
+        "Solution recommendation: A scoped approach with ownership and trade-offs."
+      ],
+      "seoTitle": "Tools & integration advisory | EGAILE",
+      "seoDescription": "Make existing systems work better together."
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000015",
+      "type": "service",
+      "slug": "implementation-adoption",
+      "published": true,
+      "title": "Implementation & adoption",
+      "summary": "Turn a scoped recommendation into everyday practice.",
+      "body": "Support a bounded implementation or pilot and help teams adopt the change, where agreed in the engagement.\n\nA workable plan needs scope, responsible owners and a route into daily practice. Pilot the change and review it before extending it.\n\nPossible measures: Adoption, process performance, exceptions and the agreed business outcome.\n\nScope and measures are agreed after understanding the process. These are consulting capabilities, not guaranteed savings.",
+      "deliverables": [
+        "Scoped delivery plan: Clear boundaries, responsibilities and dependencies.",
+        "Adoption support: Training and process guidance where agreed.",
+        "Outcome review: Compare results with the baseline and decide the next step."
+      ],
+      "seoTitle": "Implementation & adoption | EGAILE",
+      "seoDescription": "Turn a scoped recommendation into everyday practice."
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000020",
+      "type": "industry",
+      "slug": "it-services",
+      "published": true,
+      "title": "Better software delivery.\nAcross the whole workflow.",
+      "summary": "IT consultancy for software companies seeking more productive coding, review, testing and delivery.",
+      "body": "Your developers work within a wider system of planning, reviews, tests, documentation and releases. We assess that workflow to understand where effort is lost and where suitable AI or automation could help.\n\nA useful improvement considers quality, rework and lead time alongside effort. Generated lines of code alone are not a productivity measure.",
+      "deliverables": [
+        "Delivery workflow assessment",
+        "AI-assisted coding and review opportunities",
+        "Testing and documentation processes",
+        "A bounded improvement plan"
+      ],
+      "seoTitle": "Better software delivery.\nAcross the whole workflow. | EGAILE",
+      "seoDescription": "IT consultancy for software companies seeking more productive coding, review, testing and delivery."
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000021",
+      "type": "industry",
+      "slug": "smes",
+      "published": true,
+      "title": "Practical improvement.\nFor growing businesses.",
+      "summary": "Process assessment and technology advisory for SMEs across industries.",
+      "body": "Manual reports, repeated data entry and disconnected tools can consume time without making the business better. We start by understanding the work and its handoffs.\n\nThe next step might be a simpler process, a better use of existing tools, automation or a bounded AI pilot. The choice follows the problem.",
+      "deliverables": [
+        "Operational workflows",
+        "Reporting and administration",
+        "Customer handling",
+        "Tool and integration opportunities"
+      ],
+      "seoTitle": "Practical improvement.\nFor growing businesses. | EGAILE",
+      "seoDescription": "Process assessment and technology advisory for SMEs across industries."
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000022",
+      "type": "page",
+      "slug": "approach",
+      "published": true,
+      "title": "Understand the process.\nMake the next step count.",
+      "summary": "From process analysis to practical improvement, with scope and ownership agreed at each step.",
+      "body": "Understand the business and establish the current baseline.\n\nAssess the process and identify gaps, dependencies and repeated work.\n\nPrioritise opportunities by value, feasibility and risk.\n\nRecommend a practical solution using suitable tools, AI or automation.\n\nSupport an agreed pilot, implementation or adoption activity.\n\nReview the outcome against the baseline and decide what to improve next.",
+      "deliverables": [],
+      "seoTitle": "Understand the process.\nMake the next step count. | EGAILE",
+      "seoDescription": "From process analysis to practical improvement, with scope and ownership agreed at each step."
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000023",
+      "type": "page",
+      "slug": "about",
+      "published": true,
+      "title": "Technology with\na business purpose.",
+      "summary": "EGAILE is an IT consultancy for SMEs across industries.",
+      "body": "We help organisations understand their processes, identify gaps and choose practical improvements using AI, automation and suitable tools and techniques.\n\nOur intended markets include India, the United Kingdom and the United States. Delivery arrangements and engagement scope are agreed for each opportunity. These market references do not imply physical offices.\n\nThe business is preparing for launch. Public team details and client evidence will be added when verified and approved.",
+      "deliverables": [],
+      "seoTitle": "Technology with\na business purpose. | EGAILE",
+      "seoDescription": "EGAILE is an IT consultancy for SMEs across industries."
+    }
+  ]
+}

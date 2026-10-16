@@ -1,0 +1,13 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "deliveryTasks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "state", "order": "ASCENDING" },
+        { "fieldPath": "next_attempt", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

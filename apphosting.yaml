@@ -1,0 +1,19 @@
+# Template: replace project-specific values in Firebase before deploying.
+runConfig:
+  minInstances: 0
+  maxInstances: 3
+  concurrency: 40
+  cpu: 1
+  memoryMiB: 512
+env:
+  - variable: EGAILE_BACKEND
+    value: firebase
+  - variable: NEXT_PUBLIC_BACKEND
+    value: firebase
+  - variable: LOCAL_OWNER_MODE
+    value: 'false'
+  - variable: PUBLIC_LAUNCH_APPROVED
+    value: 'false'
+# Configure APP_ORIGIN, Firebase project/client values, App Check site key,
+# verified trusted-proxy header and Secret Manager references in the EGAILE project.
+# This template intentionally cannot accept public enquiries before launch review.
