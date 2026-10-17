@@ -55,6 +55,16 @@ Image Storage, public enquiry App Check/trusted proxy configuration and email de
 
 Federation tests simulate Google STS and IAM Credentials responses and verify lazy token retrieval, audience construction, service-account impersonation, access-token reuse and expiry refresh, rejected configuration, denied exchanges and refusal to use emulators on Vercel. The existing emulator suite continues to check membership, revocation and browser database denial. These checks do not replace the deployed tests above.
 
+## Serverless module compatibility
+
+The first Vercel deployment built successfully but failed on requests with `ERR_REQUIRE_ESM`: `jwks-rsa@4.1.0` synchronously required its ESM-only `jose@6` dependency while the serverless runtime disabled `require(ESM)`. This was reproduced locally with `node --no-experimental-require-module`.
+
+Both package manifests narrowly override **jwks-rsa's** jose dependency to the dual CommonJS/ESM release `5.10.0`. Other dependencies keep their own requested jose versions. Remove this override only after an upstream fix is adopted and the serverless regression test passes. No Firebase credentials, IAM permissions or token validation controls are changed.
+
+`tests/firebase-runtime.test.ts` starts a process with `require(ESM)` disabled, loads the Firebase/Vercel server modules and checks RSA/EC signing-key conversion, valid and tampered signatures, and unknown-key rejection using generated synthetic keys without network access. The worker's Firebase imports were also checked under the same restriction. The production dependency audit reports no vulnerabilities; development-tool advisories are outside this fix.
+
+Upstream tracking: [Firebase Admin issue 3181](https://github.com/firebase/firebase-admin-node/issues/3181), [jwks-rsa issue 507](https://github.com/auth0/node-jwks-rsa/issues/507).
+
 ## References
 
 - [Vercel OIDC with Google Cloud](https://vercel.com/docs/oidc/gcp)
