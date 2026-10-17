@@ -39,6 +39,35 @@
   "privacyVersion": "website-preview-v1",
   "sections": [
     {
+      "id": "10000000-0000-4000-8000-000000000006",
+      "type": "about",
+      "enabled": true,
+      "eyebrow": "ABOUT EGAILE · DELHI NCR",
+      "title": "Small business ambition.\nPractical technology.",
+      "body": "EGAILE helps small and medium organisations in Delhi NCR understand where work gets stuck — and what can work better.\n\nFrom service businesses and local enterprises to software teams, we look at the processes behind everyday work. Then we help you choose a practical next step: a simpler workflow, connected tools, useful automation or a carefully scoped AI pilot.",
+      "linkLabel": "Get to know EGAILE",
+      "linkHref": "/about",
+      "image": "/images/egaile-sme-workshop.webp",
+      "imageAlt": "Illustrative Indian SME business owner and consultants mapping a workflow together at a desk.",
+      "secondaryImage": "/images/egaile-sme-operations.webp",
+      "secondaryImageAlt": "Illustrative small-workshop colleagues reviewing a job sheet and tablet workflow.",
+      "imageCaption": "AI-generated illustrations of SME workplaces.",
+      "items": [
+        {
+          "title": "Start with the work",
+          "body": "Understand the people, handoffs and repeated effort before choosing a tool."
+        },
+        {
+          "title": "Choose what fits",
+          "body": "Match recommendations to your business priorities, budget and existing systems."
+        },
+        {
+          "title": "Make it usable",
+          "body": "Support adoption with clear ownership, practical guidance and measures of progress."
+        }
+      ]
+    },
+    {
       "id": "10000000-0000-4000-8000-000000000001",
       "type": "services",
       "enabled": true,
@@ -53,23 +82,35 @@
       "id": "10000000-0000-4000-8000-000000000002",
       "type": "method",
       "enabled": true,
-      "eyebrow": "A CLEAR WAY FORWARD",
-      "title": "Understand. Improve.\nMake it work.",
-      "body": "A process-first approach, with a useful outcome at every stage.",
-      "linkLabel": "See our approach",
-      "linkHref": "/approach",
+      "eyebrow": "OUR WAY OF WORKING",
+      "title": "From a business question\nto a working improvement.",
+      "body": "Four connected stages, shaped around the scale of your organisation. Start with one useful problem. Review the evidence together before taking the next step.",
+      "linkLabel": "Discuss your first priority",
+      "linkHref": "/contact",
       "items": [
         {
-          "title": "See the work clearly",
-          "body": "Understand the process, the systems and the handoffs."
+          "title": "Understand & align",
+          "body": "Walk through the process with the people who use it. Identify repeated work, delays, errors and disconnected systems. Agree which problem matters most and establish a useful baseline.",
+          "outcome": "A simple process map and gap assessment\nA shared business priority and named owner\nBaseline measures such as time, rework or turnaround",
+          "checkpoint": "Agree the problem, what success would look like and the boundaries of the assessment."
         },
         {
-          "title": "Find the right opportunity",
-          "body": "Identify gaps and assess where AI, automation or simpler tools could help."
+          "title": "Design a practical plan",
+          "body": "Compare process changes, better use of existing tools, automation and AI where it is suitable. Check data access, security, integration needs and likely operating costs before committing.",
+          "outcome": "Prioritised opportunities with key dependencies\nA scoped pilot and a clear view of likely costs\nSuccess measures, human review and responsibilities",
+          "checkpoint": "Review feasibility, data handling and the proposed pilot scope before approving implementation."
         },
         {
-          "title": "Put the change into practice",
-          "body": "Scope the next step, support adoption and review what improves."
+          "title": "Pilot & put it to work",
+          "body": "Test the agreed change on a manageable workflow with real users and appropriate data. Demonstrate progress, collect feedback and refine the solution before a wider rollout.",
+          "outcome": "A working pilot or agreed implementation\nUser feedback, testing and a rollout decision\nPractical guidance for the people doing the work",
+          "checkpoint": "Compare pilot results with the baseline and agree whether to refine, roll out or stop."
+        },
+        {
+          "title": "Review & improve",
+          "body": "Help the team take ownership of the new way of working. Review reliability, adoption, recurring costs and the agreed business measures. Prioritise further improvements when the evidence supports them.",
+          "outcome": "A clear handover and support responsibilities\nA review of adoption, costs and agreed measures\nA practical backlog of further improvements",
+          "checkpoint": "Agree the review rhythm and next priorities. Ongoing support is scoped separately."
         }
       ]
     },
@@ -253,7 +294,7 @@
       "slug": "smes",
       "published": true,
       "title": "Practical improvement.\nFor growing businesses.",
-      "summary": "Process assessment and technology advisory for SMEs across industries.",
+      "summary": "Process assessment and practical technology advisory for small and medium organisations, with a focus on Delhi NCR.",
       "body": "Manual reports, repeated data entry and disconnected tools can consume time without making the business better. We start by understanding the work and its handoffs.\n\nThe next step might be a simpler process, a better use of existing tools, automation or a bounded AI pilot. The choice follows the problem.",
       "deliverables": [
         "Operational workflows",
@@ -262,7 +303,7 @@
         "Tool and integration opportunities"
       ],
       "seoTitle": "Practical improvement.\nFor growing businesses. | EGAILE",
-      "seoDescription": "Process assessment and technology advisory for SMEs across industries."
+      "seoDescription": "Process assessment and practical technology advisory for small and medium organisations, with a focus on Delhi NCR."
     },
     {
       "id": "10000000-0000-4000-8000-000000000022",
@@ -270,23 +311,28 @@
       "slug": "approach",
       "published": true,
       "title": "Understand the process.\nMake the next step count.",
-      "summary": "From process analysis to practical improvement, with scope and ownership agreed at each step.",
-      "body": "Understand the business and establish the current baseline.\n\nAssess the process and identify gaps, dependencies and repeated work.\n\nPrioritise opportunities by value, feasibility and risk.\n\nRecommend a practical solution using suitable tools, AI or automation.\n\nSupport an agreed pilot, implementation or adoption activity.\n\nReview the outcome against the baseline and decide what to improve next.",
+      "summary": "A practical four-stage approach: understand the process, design a suitable plan, test the change and help your team improve it.",
+      "body": "We begin with a business question and the people closest to the work. Together, we agree a manageable scope and useful measures before choosing tools or making a delivery commitment.\n\nEach stage has a clear output and a shared review point. A pilot can be refined, expanded or stopped based on evidence. Timing and costs depend on your processes, systems, data and the change you want to make.",
       "deliverables": [],
       "seoTitle": "Understand the process.\nMake the next step count. | EGAILE",
-      "seoDescription": "From process analysis to practical improvement, with scope and ownership agreed at each step."
+      "seoDescription": "A four-stage SME consulting approach from process discovery and practical planning to pilot delivery, adoption and review."
     },
     {
       "id": "10000000-0000-4000-8000-000000000023",
       "type": "page",
       "slug": "about",
       "published": true,
-      "title": "Technology with\na business purpose.",
-      "summary": "EGAILE is an IT consultancy for SMEs across industries.",
-      "body": "We help organisations understand their processes, identify gaps and choose practical improvements using AI, automation and suitable tools and techniques.\n\nOur focus is helping organisations in India. Delivery arrangements and engagement scope are agreed for each opportunity.\n\nThe business is preparing for launch. Public team details and client evidence will be added when verified and approved.",
-      "deliverables": [],
-      "seoTitle": "Technology with\na business purpose. | EGAILE",
-      "seoDescription": "EGAILE is an IT consultancy for SMEs across industries."
+      "title": "About EGAILE.\nBuilt for growing SMEs.",
+      "summary": "Process-first IT consultancy for small and medium organisations in Delhi NCR, using practical AI, automation and connected tools.",
+      "body": "As a business grows, the work between its systems and teams can become harder to manage. Repeated data entry, spreadsheet reporting and unclear handoffs can take attention away from customers and delivery.\n\nWe help business owners and teams examine those gaps and decide what is worth improving. The answer may be an operational change, better use of a tool you already have, a system integration or an AI-assisted workflow with human oversight.\n\nOur focus is SMEs across Delhi, Gurugram, Noida, Ghaziabad, Faridabad and the wider NCR. Engagement scope, delivery arrangements and expected outcomes are agreed with each organisation.",
+      "deliverables": [
+        "Process and operational gaps",
+        "Practical AI and workflow automation",
+        "Productivity for software and service teams",
+        "Adoption, ownership and measured improvement"
+      ],
+      "seoTitle": "About EGAILE | IT consultancy for Delhi NCR SMEs",
+      "seoDescription": "Meet EGAILE: practical process, AI and automation consultancy for small and medium organisations in Delhi NCR."
     }
   ]
 }

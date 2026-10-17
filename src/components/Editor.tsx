@@ -231,7 +231,7 @@ export function Editor({
       'text/csv;charset=utf-8',
     );
   }
-  async function upload(file: File) {
+  async function upload(file: File, target?: { id: string; key: 'image' | 'secondaryImage' }) {
     setBusy(true);
     setError('');
     try {
@@ -241,7 +241,10 @@ export function Editor({
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || 'Upload failed.');
       change((s) => {
-        s.hero.image = result.url;
+        if (target) {
+          const section = s.sections.find((x) => x.id === target.id);
+          if (section) section[target.key] = result.url;
+        } else s.hero.image = result.url;
       });
       setNotice('Image uploaded. Save a draft and preview before publishing.');
     } catch (e) {
@@ -683,9 +686,11 @@ export function Editor({
                           })
                         }
                       >
-                        {['services', 'method', 'spotlight', 'text', 'faq', 'cta'].map((t) => (
-                          <option key={t}>{t}</option>
-                        ))}
+                        {['services', 'method', 'spotlight', 'text', 'faq', 'cta', 'about'].map(
+                          (t) => (
+                            <option key={t}>{t}</option>
+                          ),
+                        )}
                       </select>
                     </label>
                     {(['eyebrow', 'title', 'body', 'linkLabel', 'linkHref'] as const).map((key) => (
@@ -709,6 +714,71 @@ export function Editor({
                         }
                       />
                     ))}
+                    {section.type === 'about' && (
+                      <div>
+                        <p className="editor-help">
+                          These photos and this content also appear on About EGAILE. Use
+                          illustrative captions for generated imagery. Uploads require configured
+                          cloud media storage; existing asset URLs work now.
+                        </p>
+                        {(['image', 'secondaryImage'] as const).map((key, photoIndex) => (
+                          <div className="editor-item" key={key}>
+                            {section[key] && (
+                              <img
+                                className="editor-image-preview"
+                                src={section[key]}
+                                alt={
+                                  section[key === 'image' ? 'imageAlt' : 'secondaryImageAlt'] || ''
+                                }
+                              />
+                            )}
+                            <label className="upload-button">
+                              Upload {photoIndex === 0 ? 'main' : 'supporting'} photo
+                              <input
+                                type="file"
+                                accept="image/png,image/jpeg,image/webp"
+                                disabled={busy}
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) upload(file, { id: section.id, key });
+                                }}
+                              />
+                            </label>
+                            <Field
+                              label={`${photoIndex === 0 ? 'Main' : 'Supporting'} photo URL`}
+                              value={section[key] || ''}
+                              onChange={(v) =>
+                                change((s) => {
+                                  s.sections[index][key] = v;
+                                })
+                              }
+                            />
+                            <Field
+                              label="Describe the photo for accessibility"
+                              value={
+                                section[key === 'image' ? 'imageAlt' : 'secondaryImageAlt'] || ''
+                              }
+                              onChange={(v) =>
+                                change((s) => {
+                                  s.sections[index][
+                                    key === 'image' ? 'imageAlt' : 'secondaryImageAlt'
+                                  ] = v;
+                                })
+                              }
+                            />
+                          </div>
+                        ))}
+                        <Field
+                          label="Photo caption / illustration disclosure"
+                          value={section.imageCaption || ''}
+                          onChange={(v) =>
+                            change((s) => {
+                              s.sections[index].imageCaption = v;
+                            })
+                          }
+                        />
+                      </div>
+                    )}
                     {section.items.map((item, i) => (
                       <div className="editor-item" key={i}>
                         <Field
@@ -730,6 +800,30 @@ export function Editor({
                             })
                           }
                         />
+                        {section.type === 'method' && (
+                          <>
+                            <Field
+                              label="What the client takes away (one item per line)"
+                              area
+                              value={item.outcome || ''}
+                              onChange={(v) =>
+                                change((s) => {
+                                  s.sections[index].items[i].outcome = v;
+                                })
+                              }
+                            />
+                            <Field
+                              label="Review checkpoint"
+                              area
+                              value={item.checkpoint || ''}
+                              onChange={(v) =>
+                                change((s) => {
+                                  s.sections[index].items[i].checkpoint = v;
+                                })
+                              }
+                            />
+                          </>
+                        )}
                         <button
                           className="editor-text-button danger"
                           onClick={() =>

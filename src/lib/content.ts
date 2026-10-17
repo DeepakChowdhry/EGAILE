@@ -37,15 +37,27 @@ export const pageSchema = z.object({
 });
 export const sectionSchema = z.object({
   id: z.string().uuid(),
-  type: z.enum(['services', 'method', 'spotlight', 'text', 'faq', 'cta']),
+  type: z.enum(['services', 'method', 'spotlight', 'text', 'faq', 'cta', 'about']),
   enabled: z.boolean(),
   eyebrow: z.string().max(80),
   title: z.string().min(3).max(150),
   body: z.string().max(2500),
   linkLabel: z.string().max(60),
   linkHref: destination,
+  image: image.optional(),
+  imageAlt: z.string().max(240).optional(),
+  secondaryImage: image.optional(),
+  secondaryImageAlt: z.string().max(240).optional(),
+  imageCaption: z.string().max(200).optional(),
   items: z
-    .array(z.object({ title: z.string().min(1).max(160), body: z.string().max(900) }))
+    .array(
+      z.object({
+        title: z.string().min(1).max(160),
+        body: z.string().max(900),
+        outcome: z.string().max(700).optional(),
+        checkpoint: z.string().max(400).optional(),
+      }),
+    )
     .max(12),
 });
 export const siteSchema = z
@@ -76,6 +88,18 @@ export const siteSchema = z
     privacyVersion: z.literal('website-preview-v1'),
   })
   .superRefine((site, ctx) => {
+    site.sections.forEach((section, i) => {
+      for (const [url, alt] of [
+        [section.image, section.imageAlt],
+        [section.secondaryImage, section.secondaryImageAlt],
+      ])
+        if (url && !alt?.trim())
+          ctx.addIssue({
+            code: 'custom',
+            path: ['sections', i, 'imageAlt'],
+            message: 'Describe each section photo with alternative text.',
+          });
+    });
     if (site.hero.image && !site.hero.imageDecorative && !site.hero.imageAlt.trim())
       ctx.addIssue({
         code: 'custom',

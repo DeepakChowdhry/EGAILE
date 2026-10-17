@@ -16,6 +16,12 @@ New pages begin unpublished. Choose a readable URL slug and complete the title, 
 
 Site settings holds the menu, contact details, appearance preset and homepage search information. Use a published page path for a menu link. Adding a page and adding its menu link are separate actions.
 
+### About EGAILE and the four-stage approach
+
+In **Homepage sections**, open **Small business ambition. Practical technology.** to change the About introduction, principles, photo URLs, image descriptions and caption. This section also appears on the About page. The current photos are AI-generated workplace illustrations; keep the disclosure unless you replace them with appropriately authorised real photos. Upload replacement buttons require the pending cloud media-storage setup, while existing asset URLs can be edited now.
+
+Open **From a business question to a working improvement.** to edit the four stages. Each item has a title, explanation, takeaways (one per line) and a review checkpoint. This content is shared with the About and Our approach pages. Save, preview and publish using the usual workflow.
+
 ## Save preview and publish
 
 1. Save draft. Saving persists the change without changing the public website.

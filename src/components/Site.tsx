@@ -4,6 +4,8 @@ import { pagePath } from '@/lib/content';
 import { Header } from './Header';
 import { Hero } from './Hero';
 import { TrafficAnalytics } from './TrafficAnalytics';
+import { AboutEgaile } from './AboutEgaile';
+import { TransformationJourney } from './TransformationJourney';
 export function Shell({
   site,
   children,
@@ -70,9 +72,7 @@ export function Footer({ site }: { site: SiteContent }) {
           <Link href="/admin/login">Admin login ↗</Link>
         </div>
       </div>
-      <div className="container footer-legal">
-        © {new Date().getFullYear()} EGAILE.
-      </div>
+      <div className="container footer-legal">© {new Date().getFullYear()} EGAILE.</div>
     </footer>
   );
 }
@@ -134,6 +134,8 @@ export function Home({ site, preview = false }: { site: SiteContent; preview?: b
   );
 }
 export function ContentSection({ section: s, site }: { section: Section; site: SiteContent }) {
+  if (s.type === 'about') return <AboutEgaile section={s} />;
+  if (s.type === 'method') return <TransformationJourney section={s} />;
   if (s.type === 'cta')
     return (
       <section className="closing">
@@ -202,21 +204,6 @@ export function ContentSection({ section: s, site }: { section: Section; site: S
         </div>
         {s.type === 'services' && (
           <ServiceCards pages={site.pages.filter((p) => p.type === 'service' && p.published)} />
-        )}
-        {s.type === 'method' && (
-          <div className="method-grid">
-            {s.items.map((x, i) => (
-              <article key={i}>
-                <span className="method-number">
-                  0{i + 1}
-                  <span aria-hidden="true">↗</span>
-                </span>
-                <h3>{x.title}</h3>
-                <p>{x.body}</p>
-                <span className="method-line" />
-              </article>
-            ))}
-          </div>
         )}
         {s.type === 'faq' && (
           <div className="faq-list">
@@ -304,6 +291,14 @@ export function PageDetail({ site, page }: { site: SiteContent; page: ContentPag
           </aside>
         </div>
       </section>
+      {page.slug === 'about' &&
+        site.sections
+          .filter((s) => s.enabled && s.type === 'about')
+          .map((s) => <AboutEgaile key={s.id} section={s} />)}
+      {['about', 'approach'].includes(page.slug) &&
+        site.sections
+          .filter((s) => s.enabled && s.type === 'method')
+          .map((s) => <TransformationJourney key={s.id} section={s} />)}
       <Closing />
     </Shell>
   );
