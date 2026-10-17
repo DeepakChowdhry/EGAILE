@@ -58,7 +58,6 @@ export function Footer({ site }: { site: SiteContent }) {
         </Link>
         <p>
           {site.tagline}
-          <br />
           <small>Process insight. Practical AI. Better ways of working.</small>
         </p>
         <Link href="/contact" className="footer-conversation">

@@ -738,7 +738,7 @@ p {
 .footer-top {
   display: flex;
   gap: 55px;
-  align-items: start;
+  align-items: center;
   padding-bottom: 43px;
 }
 .footer-brand {
@@ -749,6 +749,7 @@ p {
   line-height: 1;
 }
 .footer-top > p {
+  margin: 0;
   font-size: 14px;
   color: #d0d9e1;
 }
