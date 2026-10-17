@@ -42,7 +42,9 @@ export function createFederatedAuth(
 ) {
   const client = ExternalAccountClient.fromJSON({
     ...federationConfig(env),
-    subject_token_supplier: { getSubjectToken: supplier },
+    // Google passes its own audience in the context object. Vercel interprets
+    // that field as a custom token-exchange option, so call without arguments.
+    subject_token_supplier: { getSubjectToken: () => supplier() },
   });
   if (!client) throw new Error('VERCEL_FEDERATION_CONFIGURATION_REQUIRED');
   const credential: Credential = {

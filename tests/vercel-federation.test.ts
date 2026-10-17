@@ -32,7 +32,10 @@ test('Google SDK exchanges a request token, impersonates the service account, ca
   let supplied = 0;
   const { client, credential } = createFederatedAuth(
     env,
-    async () => `synthetic-oidc-${++supplied}`,
+    async (...args: unknown[]) => {
+      assert.equal(args.length, 0, 'Google context must not become Vercel audience options');
+      return `synthetic-oidc-${++supplied}`;
+    },
   );
   assert.equal(supplied, 0, 'construction must not require a request context');
   const requests: string[] = [];

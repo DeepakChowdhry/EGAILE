@@ -65,6 +65,10 @@ Both package manifests narrowly override **jwks-rsa's** jose dependency to the d
 
 Upstream tracking: [Firebase Admin issue 3181](https://github.com/firebase/firebase-admin-node/issues/3181), [jwks-rsa issue 507](https://github.com/auth0/node-jwks-rsa/issues/507).
 
+## Token callback compatibility
+
+Live deployment exposed a second integration issue: Google invokes `getSubjectToken(context)` with its federation audience. Passing Vercel's helper directly caused `@vercel/oidc@4` to treat that context as custom-audience options, producing a token that Google rejected. The callback now explicitly calls the helper without arguments, preserving the configured Vercel audience. The exchange/refresh regression test asserts that no Google context arguments reach the supplier. Do not change the cloud provider's allowed audience to the Google federation resource to bypass this error.
+
 ## References
 
 - [Vercel OIDC with Google Cloud](https://vercel.com/docs/oidc/gcp)
