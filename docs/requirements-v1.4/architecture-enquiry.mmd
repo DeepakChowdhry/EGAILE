@@ -1,0 +1,9 @@
+flowchart TB
+  Submit[Enquiry with submission key] --> Validate[Validate and control abuse]
+  Validate --> Commit[Firestore transaction saves enquiry key and task]
+  Commit --> Receipt[Return stored receipt]
+  Commit --> Claim[Worker claims durable task]
+  Claim --> Send[Call email adapter with timeout]
+  Send --> State[Record delivery or bounded retry]
+  State --> Ops[Operator status and alerts]
+  Sweep[Scheduled recovery sweep] --> Claim

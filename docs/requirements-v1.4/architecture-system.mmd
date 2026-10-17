@@ -1,0 +1,10 @@
+flowchart TB
+  Visitors[Public visitors] --> Hosting[Firebase App Hosting and CDN]
+  Staff[Invited staff] --> Hosting
+  Hosting --> App[Next.js server application]
+  App --> Auth[Firebase Authentication]
+  App --> Firestore[Cloud Firestore]
+  App --> Storage[Cloud Storage]
+  Firestore --> Worker[Cloud Functions and scheduled recovery sweep]
+  Worker --> Email[Email adapter]
+  App -. later .-> Future[Payment CRM booking and authorised API adapters]
