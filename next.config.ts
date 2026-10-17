@@ -1,7 +1,13 @@
 import type { NextConfig } from 'next';
 const config: NextConfig = {
   distDir: process.env.EGAILE_BUILD_DIR || '.next',
-  serverExternalPackages: ['firebase-admin'],
+  serverExternalPackages: [
+    'firebase-admin',
+    '@google-cloud/firestore',
+    '@google-cloud/storage',
+    'google-auth-library',
+    '@vercel/oidc',
+  ],
   poweredByHeader: false,
   devIndicators: false,
   async headers() {

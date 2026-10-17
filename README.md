@@ -7,6 +7,7 @@ Working development build for EGAILE's IT consultancy website. React and Next.js
 - [Requirements and architecture package](docs/requirements-v1.4/READ-ME.md): BRD, FRD, PRD and technical design in Word and Markdown, plus the Firebase architecture and two-page diagram document. The package explains which earlier technology choices are superseded.
 - [Latest QA results — 17 October 2026](docs/qa-results-2026-10-17.md): 181 checks passed across the tested environments; three cloud checks remain blocked and two were not run. The report records scope, fixes and production limitations.
 - [Owner guide](OWNER-GUIDE.md), [Firebase setup](FIREBASE-SETUP.md) and [operations guide](OPERATIONS.md).
+- [Vercel and Firebase connection](docs/vercel-firebase-setup.md): keyless server authentication, production variables, remaining IAM and deployment checks.
 
 This repository contains source code, public assets, requirements and tests. Environment credentials, application-default credentials, local databases, enquiry records, dependencies and generated build files are excluded. Recreate private environment settings separately on each authorised machine or hosting platform. GitHub publication does not deploy the website or activate pending cloud integrations.
 
