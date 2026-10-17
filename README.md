@@ -42,7 +42,9 @@ npm run functions:build
 npm run build
 ```
 
-With the local development server running, `npm run test:http` tests routes, access denial, origin controls, draft isolation, uploads and enquiry workflows. It creates clearly labelled synthetic records and restores the content it changes. Do not point it at a live customer deployment.
+With the normal development server running, `npm run test:http` checks public routes, assets, metadata, access denial and origin controls without changing business records. Results are saved in `test-results/http-connected.json`.
+
+For mutation workflows, start `npm run qa:serve` in another terminal, then run `npm run test:http:isolated`. The disposable server uses port 3011, a new local database on each start and a separate `.next-qa` build directory. It disables external email and analytics. The suite tests drafts, stale edits, publication, recovery, image uploads, enquiry deduplication, status updates and sign-out. It refuses to write to any other port or to a Firebase-backed instance. Results are saved in `test-results/http-isolated.json`. Restart the disposable server for a fresh run if rate limits are reached. This does not validate live App Check, cloud uploads or external email delivery.
 
 The repository tests also run against Google's local Firestore and Auth emulators. Install Java 21 or later and use the Firebase CLI from this project. Set `EGAILE_BACKEND=firebase`, `FIREBASE_PROJECT_ID=demo-egaile` and a synthetic `RATE_LIMIT_SECRET`, then run:
 

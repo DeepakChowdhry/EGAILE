@@ -1,6 +1,7 @@
 import { readContent } from '@/server/content-repository';
 import { Shell } from '@/components/Site';
 import { EnquiryForm } from '@/components/EnquiryForm';
+import { backend } from '@/server/db';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Start a conversation' };
 export default async function Page({
@@ -52,7 +53,7 @@ export default async function Page({
             services={site.pages.filter((p) => p.type === 'service' && p.published)}
             industries={site.pages.filter((p) => p.type === 'industry' && p.published)}
             selected={service}
-            local={process.env.NODE_ENV !== 'production'}
+            local={backend() === 'local'}
           />
         </div>
       </section>

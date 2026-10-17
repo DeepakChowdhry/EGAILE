@@ -14,7 +14,9 @@
     "functions:build": "node scripts/build-functions.mjs",
     "owner:bootstrap": "tsx scripts/bootstrap-owner.ts",
     "emulators": "firebase emulators:start --project demo-egaile --only auth,firestore,storage",
-    "test:http": "node scripts/http-smoke.mjs"
+    "test:http": "node scripts/qa-http.mjs",
+    "test:http:isolated": "node scripts/qa-http.mjs --isolated",
+    "qa:serve": "node scripts/qa-server.mjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.3.3",

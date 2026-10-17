@@ -15,7 +15,9 @@ export async function generateMetadata({
   const page = site.pages.find((p) => p.published && pagePath(p) === url);
   return page
     ? {
-        title: page.seoTitle || page.title.replace(/\n/g, ' '),
+        title: page.seoTitle
+          ? { absolute: page.seoTitle.replace(/\n/g, ' ') }
+          : page.title.replace(/\n/g, ' '),
         description: page.seoDescription || page.summary,
         alternates: { canonical: url },
       }
