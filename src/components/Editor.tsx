@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Members } from './Members';
+import { BrandLogo } from './BrandLogo';
 import type { Permission } from '@/lib/permissions';
 import { pagePath, type SiteContent, type ContentPage, type Section } from '@/lib/content';
 type HistoryRow = {
@@ -316,8 +317,8 @@ export function Editor({
   return (
     <div className="workspace">
       <aside className="workspace-sidebar">
-        <Link href="/" className="workspace-brand">
-          EGAILE<span>.</span>
+        <Link href="/" className="workspace-brand" aria-label="EGAILE home">
+          <BrandLogo variant="workspace" />
         </Link>
         <p className="workspace-caption">YOUR WEBSITE WORKSPACE</p>
         <nav aria-label="Workspace">

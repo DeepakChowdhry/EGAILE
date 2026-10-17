@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import type { SiteContent } from '@/lib/content';
+import { BrandLogo } from './BrandLogo';
 export function Header({ site }: { site: SiteContent }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -10,10 +11,7 @@ export function Header({ site }: { site: SiteContent }) {
     <header className="site-header">
       <div className="container header-inner">
         <Link className="brand" href="/" onClick={() => setOpen(false)} aria-label="EGAILE home">
-          <span>
-            EGAILE<span className="brand-dot">.</span>
-          </span>
-          <small>{site.tagline.toUpperCase()}</small>
+          <BrandLogo />
         </Link>
         <nav aria-label="Main navigation" className="main-nav">
           {site.menu.map((item, i) => (

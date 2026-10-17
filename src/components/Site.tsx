@@ -6,6 +6,7 @@ import { Hero } from './Hero';
 import { TrafficAnalytics } from './TrafficAnalytics';
 import { AboutEgaile } from './AboutEgaile';
 import { TransformationJourney } from './TransformationJourney';
+import { BrandLogo } from './BrandLogo';
 export function Shell({
   site,
   children,
@@ -52,8 +53,8 @@ export function Footer({ site }: { site: SiteContent }) {
   return (
     <footer className="footer">
       <div className="container footer-top">
-        <Link href="/" className="footer-brand">
-          EGAILE<span>.</span>
+        <Link href="/" className="footer-brand" aria-label="EGAILE home">
+          <BrandLogo variant="footer" />
         </Link>
         <p>
           {site.tagline}

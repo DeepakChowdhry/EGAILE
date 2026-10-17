@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { BrandLogo } from './BrandLogo';
 export function Login({ local }: { local: boolean }) {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -50,8 +51,8 @@ export function Login({ local }: { local: boolean }) {
   return (
     <main className="login-screen">
       <div className="login-panel">
-        <Link href="/" className="login-brand">
-          EGAILE<span>.</span>
+        <Link href="/" className="login-brand" aria-label="EGAILE home">
+          <BrandLogo variant="login" tone="ink" />
         </Link>
         <p className="eyebrow">ADMIN WORKSPACE</p>
         <h1>Make it yours.</h1>
