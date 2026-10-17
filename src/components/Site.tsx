@@ -63,7 +63,7 @@ export function Footer({ site }: { site: SiteContent }) {
         </Link>
       </div>
       <div className="container footer-bottom">
-        <span>Intended markets: India · United Kingdom · United States</span>
+        <span>India</span>
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/cookies">Cookies</Link>
@@ -71,8 +71,7 @@ export function Footer({ site }: { site: SiteContent }) {
         </div>
       </div>
       <div className="container footer-legal">
-        © {new Date().getFullYear()} EGAILE. Website preview. Public launch details are being
-        finalised.
+        © {new Date().getFullYear()} EGAILE.
       </div>
     </footer>
   );

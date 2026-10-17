@@ -24,7 +24,7 @@ export const enquirySchema = z
         'other',
       ])
       .optional(),
-    country: z.enum(['', 'IN', 'GB', 'US', 'OTHER']).optional(),
+    country: z.enum(['', 'IN', 'OTHER']).optional(),
     privacy: z.literal(true),
     privacyVersion: z.literal('website-preview-v1'),
     sourcePath: z

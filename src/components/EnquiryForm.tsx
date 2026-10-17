@@ -158,8 +158,6 @@ export function EnquiryForm({
           <select name="country">
             <option value="">Select your country</option>
             <option value="IN">India</option>
-            <option value="GB">United Kingdom</option>
-            <option value="US">United States</option>
             <option value="OTHER">Other</option>
           </select>
         </label>
