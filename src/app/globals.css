@@ -2942,15 +2942,18 @@ h3 {
   flex: 0 0 auto;
 }
 .brand-logo .brand-logo__copy {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: max-content;
   gap: 9px;
 }
 .brand-logo .brand-logo__word {
+  display: flex;
+  justify-content: space-between;
   font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   font-size: 30px;
   font-weight: 650;
-  letter-spacing: 0.11em;
+  letter-spacing: 0;
   color: #eef4f8;
   line-height: 1;
 }
@@ -2958,7 +2961,7 @@ h3 {
   font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   font-size: 7.5px;
   font-weight: 500;
-  letter-spacing: 0.09em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: #b6c7d4;
   line-height: 1.3;

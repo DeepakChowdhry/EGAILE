@@ -16,7 +16,6 @@ export function AboutEgaile({ section: s }: { section: Section }) {
             />
           )}
           <div className="about-photo-note">
-            <span aria-hidden="true">↗</span>
             <p>
               Better ways of working.
               <br />

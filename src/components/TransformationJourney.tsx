@@ -93,7 +93,6 @@ export function TransformationJourney({ section }: { section: Section }) {
             <p className="eyebrow">A SHARED CHECKPOINT</p>
             <p>{item.checkpoint || 'Review the evidence together and agree the next step.'}</p>
             <div>
-              <span aria-hidden="true">↗</span>
               <strong>Move forward with clarity.</strong>
               <p>
                 Scope, timing and measures are agreed for your business. Progress is reviewed before

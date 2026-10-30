@@ -16,7 +16,13 @@ export function BrandLogo({
         aria-hidden="true"
       />
       <span className="brand-logo__copy">
-        <span className="brand-logo__word">EGAILE</span>
+        <span className="brand-logo__word" role="img" aria-label="EGAILE">
+          {'EGAILE'.split('').map((letter, index) => (
+            <span key={index} aria-hidden="true">
+              {letter}
+            </span>
+          ))}
+        </span>
         <span className="brand-logo__tagline">Transformational technology advisory</span>
       </span>
     </span>
