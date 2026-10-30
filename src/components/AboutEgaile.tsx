@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import type { Section } from '@/lib/content';
 export function AboutEgaile({ section: s }: { section: Section }) {
+  const imageCaption =
+    s.imageCaption === 'AI-generated illustrations of SME workplaces.'
+      ? 'Collaboration and everyday operations in small businesses.'
+      : s.imageCaption;
   return (
     <section className="about-egaile" id="about-egaile" aria-labelledby={`about-${s.id}`}>
       <div className="container about-egaile-grid">
@@ -32,7 +36,7 @@ export function AboutEgaile({ section: s }: { section: Section }) {
               loading="lazy"
             />
           )}
-          {s.imageCaption && <p className="about-image-caption">{s.imageCaption}</p>}
+          {imageCaption && <p className="about-image-caption">{imageCaption}</p>}
         </div>
         <div className="about-egaile-copy">
           <p className="eyebrow">{s.eyebrow}</p>
