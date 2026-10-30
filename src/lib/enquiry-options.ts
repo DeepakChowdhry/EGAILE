@@ -23,3 +23,5 @@ export const processAreas = [
 ];
 export const supportPhone = '+91 9310424041';
 export const supportWhatsApp = 'https://wa.me/919310424041';
+
+export const supportEmail = 'Support@egaile.com';

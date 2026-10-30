@@ -197,7 +197,7 @@ test('worker handles duplicate execution, provider errors and expired leases wit
   };
   try {
     await Promise.all([dispatchNotifications(row.id), dispatchNotifications(row.id)]);
-    assert.equal(calls, 1);
+    assert.equal(calls, 2);
     assert.equal((await (await readStore()).get('deliveryTasks', row.id))?.state, 'accepted');
     const next = (await listEnquiries()).find((r) => r.id !== row.id)!;
     globalThis.fetch = async () => new Response('{}', { status: 500 });
@@ -262,4 +262,57 @@ test('expanded enquiry options are accepted, labelled and stored; unknown option
       acceptEnquiry({ ...input, industry: 'unknown-industry' }, randomUUID(), 'invalid-options'),
     /INVALID_BODY/,
   );
+});
+
+test('requester confirmation contains the enquiry and retries independently of support notification', async () => {
+  const originalFetch = globalThis.fetch;
+  const originalKey = process.env.RESEND_API_KEY;
+  const originalFrom = process.env.NOTIFICATION_FROM;
+  const originalTo = process.env.NOTIFICATION_TO;
+  process.env.RESEND_API_KEY = 'synthetic-key';
+  delete process.env.NOTIFICATION_FROM;
+  delete process.env.NOTIFICATION_TO;
+  const receipt = await acceptEnquiry(enquiry, randomUUID(), 'confirmation-test');
+  const row = (await listEnquiries()).find((lead) => lead.reference === receipt.reference)!;
+  const messages: {
+    to: string[];
+    from: string;
+    reply_to: string;
+    text: string;
+    subject: string;
+  }[] = [];
+  try {
+    globalThis.fetch = async (_url, init) => {
+      messages.push(JSON.parse(String(init?.body)));
+      return new Response('{}', { status: messages.length === 2 ? 503 : 200 });
+    };
+    await dispatchNotifications(row.id);
+    assert.equal(messages.length, 2);
+    assert.deepEqual(messages[0].to, ['Support@egaile.com']);
+    assert.deepEqual(messages[1].to, [enquiry.email]);
+    assert.equal(messages[1].from, 'EGAILE Support Team <Support@egaile.com>');
+    assert.equal(messages[1].reply_to, 'Support@egaile.com');
+    assert.ok(messages[1].text.includes(enquiry.message));
+    assert.ok(messages[1].subject.includes(receipt.reference));
+    await transaction(async (db) => {
+      const task = await db.get('deliveryTasks', row.id);
+      assert.ok(task?.support_accepted_at);
+      assert.equal(task?.requester_accepted_at, undefined);
+      await db.set('deliveryTasks', row.id, { ...task, next_attempt: '2000-01-01' });
+    });
+    await dispatchNotifications(row.id);
+    assert.equal(messages.length, 3);
+    assert.deepEqual(messages[2].to, [enquiry.email]);
+    assert.equal((await (await readStore()).get('deliveryTasks', row.id))?.state, 'accepted');
+  } finally {
+    globalThis.fetch = originalFetch;
+    for (const [key, value] of Object.entries({
+      RESEND_API_KEY: originalKey,
+      NOTIFICATION_FROM: originalFrom,
+      NOTIFICATION_TO: originalTo,
+    })) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
 });

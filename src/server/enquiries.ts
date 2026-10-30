@@ -57,14 +57,13 @@ export async function acceptEnquiry(input: unknown, key: string, ip: string) {
     .update(ip + ':' + Math.floor(Date.now() / 600000))
     .digest('hex');
   return transaction(async (db) => {
-    const existing = await db.get<RecordData & { payload_hash: string; reference: string }>(
-      'submissionKeys',
-      key,
-    );
+    const existing = await db.get<
+      RecordData & { payload_hash: string; reference: string; enquiry_id: string }
+    >('submissionKeys', key);
     const rate = await db.get<RecordData & { count: number }>('rateLimits', bucket);
     if (existing) {
       if (existing.payload_hash !== payloadHash) throw new Error('IDEMPOTENCY_CONFLICT');
-      return { reference: existing.reference, duplicate: true };
+      return { reference: existing.reference, duplicate: true, enquiryId: existing.enquiry_id };
     }
     if (Number(rate?.count || 0) >= 5) throw new Error('RATE_LIMITED');
     const id = randomUUID(),
@@ -100,7 +99,7 @@ export async function acceptEnquiry(input: unknown, key: string, ip: string) {
       lease_token: '',
       error_code: '',
     });
-    return { reference, duplicate: false };
+    return { reference, duplicate: false, enquiryId: id };
   });
 }
 type Enquiry = RecordData & {

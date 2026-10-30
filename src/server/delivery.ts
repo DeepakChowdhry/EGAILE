@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { supportEmail, supportPhone, processAreas } from '../lib/enquiry-options';
 import { transaction, readStore, type RecordData } from './db';
 type Enquiry = RecordData & {
   reference: string;
@@ -7,8 +8,7 @@ type Enquiry = RecordData & {
   created_at: string;
 };
 export async function dispatchNotifications(taskId?: string) {
-  if (!process.env.RESEND_API_KEY || !process.env.NOTIFICATION_FROM || !process.env.NOTIFICATION_TO)
-    return { configured: false, processed: 0 };
+  if (!process.env.RESEND_API_KEY) return { configured: false, processed: 0 };
   const db = await readStore();
   const candidates = taskId
     ? await db
@@ -39,6 +39,8 @@ export async function dispatchNotifications(taskId?: string) {
           enquiry_id: string;
           lease_until: string;
           next_attempt: string;
+          support_accepted_at?: string;
+          requester_accepted_at?: string;
         }
       >('deliveryTasks', candidate.id);
       if (!current) return null;
@@ -58,33 +60,89 @@ export async function dispatchNotifications(taskId?: string) {
         lease_until: new Date(Date.now() + 120000).toISOString(),
         lease_token: token,
       });
-      return { id: candidate.id, lead, attempts: current.attempts, token };
+      return {
+        id: candidate.id,
+        lead,
+        attempts: current.attempts,
+        token,
+        supportAccepted: current.support_accepted_at,
+        requesterAccepted: current.requester_accepted_at,
+      };
     });
     if (!job) continue;
     let error = '',
       permanent = false;
     try {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-          'Idempotency-Key': job.id,
+      const body = job.lead.body;
+      const details = [
+        `Name: ${body.name}`,
+        `Email: ${body.email}`,
+        `Company: ${body.company}`,
+        `Country: ${body.country === 'IN' ? 'India' : body.country || 'Not specified'}`,
+        `Area of interest: ${body.serviceLabel || 'Not specified'}`,
+        `Industry: ${body.industryLabel || 'Not specified'}`,
+        `Process area: ${processAreas.find((option) => option.value === body.processArea)?.label || body.processArea || 'Not specified'}`,
+        '',
+        'Your enquiry:',
+        body.message,
+      ].join('\n');
+      const messages = [
+        {
+          kind: 'support',
+          accepted: job.supportAccepted,
+          to: process.env.NOTIFICATION_TO || supportEmail,
+          replyTo: body.email,
+          subject: `New EGAILE enquiry — ${job.lead.reference}`,
+          text: `A new enquiry has been received. Reference: ${job.lead.reference}\n\n${details}`,
         },
-        body: JSON.stringify({
-          from: process.env.NOTIFICATION_FROM,
-          to: [process.env.NOTIFICATION_TO],
-          subject: `EGAILE enquiry ${job.lead.reference}`,
-          text: `A new enquiry is available in the protected EGAILE dashboard. Reference: ${job.lead.reference}`,
-        }),
-        signal: AbortSignal.timeout(8000),
-      });
-      if (!response.ok) {
-        error = 'PROVIDER_' + response.status;
-        permanent =
-          response.status >= 400 &&
-          response.status < 500 &&
-          ![408, 409, 429].includes(response.status);
+        {
+          kind: 'requester',
+          accepted: job.requesterAccepted,
+          to: body.email,
+          replyTo: supportEmail,
+          subject: `We’ve received your enquiry — ${job.lead.reference}`,
+          text: `Hello ${body.name},\n\nThank you for contacting EGAILE. Your enquiry has been received by our Support Team.\n\nReference: ${job.lead.reference}\n\n${details}\n\nYou can reply to this email to continue the conversation.\n\nSupport Team\nEGAILE\n${supportEmail}\n${supportPhone}`,
+        },
+      ];
+      for (const message of messages) {
+        if (message.accepted) continue;
+        const response = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+            'Content-Type': 'application/json',
+            // Preserve the existing support notification key across this upgrade.
+            'Idempotency-Key': message.kind === 'support' ? job.id : `${job.id}:requester`,
+          },
+          body: JSON.stringify({
+            from: process.env.NOTIFICATION_FROM || `EGAILE Support Team <${supportEmail}>`,
+            to: [message.to],
+            reply_to: message.replyTo,
+            subject: message.subject,
+            text: message.text,
+          }),
+          signal: AbortSignal.timeout(8000),
+        });
+        if (!response.ok) {
+          error = 'PROVIDER_' + response.status;
+          permanent =
+            response.status >= 400 &&
+            response.status < 500 &&
+            ![408, 409, 429].includes(response.status);
+          break;
+        }
+        // Save progress so a failed requester email does not resend the support email.
+        await transaction(async (db) => {
+          const current = await db.get<RecordData & { lease_token: string }>(
+            'deliveryTasks',
+            job.id,
+          );
+          if (current?.lease_token === job.token)
+            await db.set('deliveryTasks', job.id, {
+              ...current,
+              [`${message.kind}_accepted_at`]: new Date().toISOString(),
+            });
+        });
       }
     } catch {
       error = 'PROVIDER_TIMEOUT';

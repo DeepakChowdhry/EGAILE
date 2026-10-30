@@ -7,6 +7,7 @@ import {
   additionalServices,
   processAreas,
   supportWhatsApp,
+  supportEmail,
 } from '@/lib/enquiry-options';
 export function EnquiryForm({
   services,
@@ -164,6 +165,12 @@ export function EnquiryForm({
               I’ve sent my enquiry
             </button>
           )}
+          <a
+            className="text-link"
+            href={`mailto:${supportEmail}?subject=${encodeURIComponent('Business enquiry — EGAILE')}&body=${encodeURIComponent(new URL(whatsAppDraft).searchParams.get('text') || '')}`}
+          >
+            Send these enquiry details by email
+          </a>
           <button className="text-link" type="button" onClick={() => setWhatsAppDraft('')}>
             Edit enquiry
           </button>

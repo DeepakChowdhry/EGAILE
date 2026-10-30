@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { after } from 'next/server';
+import { dispatchNotifications } from '@/server/delivery';
 import { checkOrigin, readJson, safeError } from '@/server/auth';
 import { acceptEnquiry } from '@/server/enquiries';
 import { backend } from '@/server/db';
@@ -24,6 +26,9 @@ export async function POST(req: Request) {
       identity = verified.appId + ':' + address;
     }
     const result = await acceptEnquiry(data, req.headers.get('idempotency-key') || '', identity);
+    after(async () => {
+      await dispatchNotifications(result.enquiryId);
+    });
     return Response.json(
       { status: 'received', reference: result.reference },
       { status: 202, headers: { 'Cache-Control': 'no-store' } },

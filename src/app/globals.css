@@ -3167,3 +3167,12 @@ h3 {
   outline: 3px solid #1261a6;
   outline-offset: 4px;
 }
+
+.support-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.support-email svg {
+  flex-shrink: 0;
+}

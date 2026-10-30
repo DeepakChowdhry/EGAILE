@@ -1,4 +1,4 @@
-import { supportPhone, supportWhatsApp } from '@/lib/enquiry-options';
+import { supportPhone, supportWhatsApp, supportEmail } from '@/lib/enquiry-options';
 export function SupportContact() {
   return (
     <div className="support-contact">
@@ -23,6 +23,24 @@ export function SupportContact() {
           <path d="M8 7.5c-.8 2.7 3 6.6 5.9 7.1.8.1 1.8-.9 1.8-1.6l-2-1-1 1c-1.5-.6-2.7-1.8-3.3-3.2l.8-1-1-2Z" />
         </svg>
         Chat on WhatsApp
+      </a>
+      <a
+        className="support-email"
+        href={`mailto:${supportEmail}?subject=${encodeURIComponent('Business enquiry — EGAILE')}`}
+      >
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          aria-hidden="true"
+        >
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 6 9 7 9-7" />
+        </svg>
+        {supportEmail}
       </a>
     </div>
   );
