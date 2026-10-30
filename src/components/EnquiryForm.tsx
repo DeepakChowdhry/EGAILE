@@ -25,7 +25,9 @@ export function EnquiryForm({
     [error, setError] = useState(''),
     [fields, setFields] = useState<Record<string, string>>({}),
     [reference, setReference] = useState(''),
-    [whatsAppDraft, setWhatsAppDraft] = useState('');
+    [whatsAppDraft, setWhatsAppDraft] = useState(''),
+    [whatsAppOpened, setWhatsAppOpened] = useState(false),
+    [whatsAppConfirmed, setWhatsAppConfirmed] = useState(false);
   const summary = useRef<HTMLDivElement>(null);
   const attempt = useRef({ payload: '', key: '' });
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -72,6 +74,8 @@ export function EnquiryForm({
     const viaWhatsApp =
       (event.nativeEvent as SubmitEvent).submitter?.getAttribute('value') === 'whatsapp';
     if (!onlineAvailable || viaWhatsApp) {
+      setWhatsAppOpened(false);
+      setWhatsAppConfirmed(false);
       setWhatsAppDraft(draft);
       setBusy(false);
       return;
@@ -114,17 +118,63 @@ export function EnquiryForm({
   }
   const whatsAppReview = whatsAppDraft ? (
     <div className="receipt-panel" role="status">
-      <h2>Your WhatsApp enquiry is ready</h2>
-      <p>
-        Open WhatsApp to review your details and press Send to share them with the Support Team.
-        Your enquiry has not been sent or saved online yet.
-      </p>
-      <a className="button primary" href={whatsAppDraft} target="_blank" rel="noopener noreferrer">
-        Review and send in WhatsApp
-      </a>
-      <button className="text-link" type="button" onClick={() => setWhatsAppDraft('')}>
-        Edit enquiry
-      </button>
+      {whatsAppConfirmed ? (
+        <>
+          <span className="receipt-icon" aria-hidden="true">
+            ✓
+          </span>
+          <p className="eyebrow">THANK YOU</p>
+          <h2>Thank you for sharing your enquiry!</h2>
+          <p>
+            You’ve confirmed that your enquiry has been shared with the Support Team on WhatsApp.
+            You can continue the conversation in the same chat.
+          </p>
+          <Link className="button primary" href="/">
+            Back to EGAILE
+          </Link>
+          <a className="text-link" href={supportWhatsApp} target="_blank" rel="noopener noreferrer">
+            Open Support Team chat
+          </a>
+        </>
+      ) : (
+        <>
+          <h2>
+            {whatsAppOpened ? 'Have you sent your enquiry?' : 'Your WhatsApp enquiry is ready'}
+          </h2>
+          <p>
+            {whatsAppOpened
+              ? 'Once you’ve pressed Send in WhatsApp, confirm below to finish. If you haven’t sent it yet, reopen WhatsApp to review and send your message.'
+              : 'Open WhatsApp to review your details and press Send to share them with the Support Team.'}
+          </p>
+          <a
+            className="button primary"
+            href={whatsAppDraft}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setWhatsAppOpened(true)}
+          >
+            {whatsAppOpened ? 'Reopen WhatsApp' : 'Review and send in WhatsApp'}
+          </a>
+          {whatsAppOpened && (
+            <button
+              className="button whatsapp-confirm"
+              type="button"
+              onClick={() => setWhatsAppConfirmed(true)}
+            >
+              I’ve sent my enquiry
+            </button>
+          )}
+          <button className="text-link" type="button" onClick={() => setWhatsAppDraft('')}>
+            Edit enquiry
+          </button>
+          {whatsAppOpened && (
+            <p className="form-note">
+              WhatsApp does not notify this page when a message is sent. Please confirm only after
+              sending it.
+            </p>
+          )}
+        </>
+      )}
     </div>
   ) : null;
   if (reference)

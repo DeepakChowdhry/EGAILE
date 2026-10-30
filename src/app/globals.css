@@ -3145,3 +3145,25 @@ h3 {
     overflow-wrap: anywhere;
   }
 }
+
+.whatsapp-confirm {
+  margin-top: 16px;
+  background: #08774c;
+  color: #fff;
+  border: 1px solid #08774c;
+}
+.receipt-panel button.text-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1261a6;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.whatsapp-confirm:focus-visible,
+.receipt-panel button.text-link:focus-visible {
+  outline: 3px solid #1261a6;
+  outline-offset: 4px;
+}
