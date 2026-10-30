@@ -468,106 +468,41 @@ p {
   background: var(--blue);
   color: white;
 }
-.service-art {
+.service-photo {
   height: 225px;
   position: relative;
   overflow: hidden;
-  background: #102f49;
+  background: #e8eeed;
 }
-.art-caption {
-  position: absolute;
-  left: 20px;
-  bottom: 17px;
-  font-size: 8px;
-  letter-spacing: 0.15em;
-  color: #b3cede;
-  z-index: 2;
+.service-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
 }
-.art-orbit {
-  position: absolute;
-  left: 26%;
-  top: 4%;
-  width: 65%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1px solid #4e93a4;
-  transform: rotateX(60deg) rotateZ(-25deg);
-  box-shadow:
-    0 0 35px #4e93a415,
-    inset 0 0 40px #5cbed912;
+.service-card:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 5px;
 }
-.art-orbit.second {
-  inset: 14% 10% auto auto;
-  width: 70%;
-  transform: rotateX(60deg) rotateZ(40deg);
+.service-card:focus-visible .round-arrow {
+  background: var(--blue);
+  color: white;
 }
-.art-core {
-  position: absolute;
-  width: 86px;
-  height: 86px;
-  left: 44%;
-  top: 28%;
-  transform: rotate(-30deg) skew(15deg);
-  background: linear-gradient(110deg, #a3c6d48f, #255e7f55);
-  box-shadow:
-    -18px 18px 0 #122f45,
-    -19px 19px 0 #437c9d,
-    -36px 36px 0 #122f4580,
-    -37px 37px 0 #437c9d80;
-  border: 1px solid #a9d6de80;
+.service-card:is(:hover, :focus-visible) h3 {
+  color: var(--blue);
 }
-.art-grid {
-  position: absolute;
-  inset: -35%;
-  background-image:
-    linear-gradient(#ffffff08 1px, transparent 1px),
-    linear-gradient(90deg, #ffffff08 1px, transparent 1px);
-  background-size: 32px 32px;
-  transform: perspective(400px) rotateX(56deg);
+.service-card:is(:hover, :focus-visible) .service-photo img {
+  transform: scale(1.035);
 }
-.art-1 {
-  background: linear-gradient(145deg, #c5d8d5, #e5ebe7);
-}
-.art-1 .art-caption {
-  color: #405e66;
-}
-.art-1 .art-orbit {
-  border-color: #819f99;
-}
-.art-1 .art-core {
-  background: linear-gradient(130deg, #ffffff, #8aada6);
-  border-color: #fbffff;
-  box-shadow:
-    -18px 18px 0 #c2d5d0,
-    -19px 19px 0 #759991,
-    -36px 36px 0 #cfdfda,
-    -37px 37px 0 #95afa8;
-}
-.art-1 .art-grid {
-  background-image:
-    linear-gradient(#34554b0c 1px, transparent 1px),
-    linear-gradient(90deg, #34554b0c 1px, transparent 1px);
-}
-.art-2 {
-  background: radial-gradient(ellipse at 65% 40%, #225479, #0d2039);
-}
-.art-2 .art-core {
-  border-radius: 50%;
-  transform: rotateX(30deg);
-  background: radial-gradient(circle at 40% 25%, #8baedb, #1b395a);
-  box-shadow:
-    0 0 60px #76c4fa33,
-    -14px 20px 0 #0a2337,
-    -14px 21px 0 #679ed070;
-}
-.art-2 .art-orbit {
-  transform: rotate(-25deg) scaleY(0.65);
-  border-color: #679ed070;
-  left: 20%;
-  top: 13%;
-}
-.art-2 .art-orbit.second {
-  transform: rotate(35deg) scaleY(0.55);
+@media (prefers-reduced-motion: reduce) {
+  .service-photo img {
+    transition: none;
+  }
+  .service-card:is(:hover, :focus-visible) .service-photo img {
+    transform: none;
+  }
 }
 .section-method {
   background: #f2f4f6;
@@ -1792,7 +1727,7 @@ p {
   .service-grid {
     gap: 20px;
   }
-  .service-art {
+  .service-photo {
     height: 185px;
   }
   .service-card h3 {
@@ -2023,7 +1958,7 @@ p {
     grid-template-columns: 1fr;
     gap: 35px;
   }
-  .service-art {
+  .service-photo {
     height: 230px;
   }
   .service-card h3 {

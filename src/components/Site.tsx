@@ -80,16 +80,58 @@ export function Footer({ site }: { site: SiteContent }) {
     </footer>
   );
 }
-export function ServiceArt({ index }: { index: number }) {
+type CardPhoto = {
+  path: string;
+  alt: string;
+};
+const cardPhotos: Record<string, CardPhoto> = {
+  'process-gap-assessment': {
+    path: '/photos/31336030/pexels-photo-31336030/free-photo-of-indian-factory-worker-in-textile-manufacturing-facility.jpeg',
+    alt: 'A worker operating machinery in an Indian textile manufacturing facility.',
+  },
+  'ai-opportunity-assessment': {
+    path: '/photos/7181109/pexels-photo-7181109.jpeg',
+    alt: 'Workshop colleagues reviewing a laptop alongside materials and equipment.',
+  },
+  'workflow-automation': {
+    path: '/photos/4481260/pexels-photo-4481260.jpeg',
+    alt: 'Warehouse workers organising boxes, pallets and outgoing shipments.',
+  },
+  'software-delivery-productivity': {
+    path: '/photos/7988079/pexels-photo-7988079.jpeg',
+    alt: 'Software developers working at computer workstations.',
+  },
+  'tools-integration-advisory': {
+    path: '/photos/6804071/pexels-photo-6804071.jpeg',
+    alt: 'Colleagues collaborating on a computer programming project.',
+  },
+  'implementation-adoption': {
+    path: '/photos/7651717/pexels-photo-7651717.jpeg',
+    alt: 'A team discussing plans together during an office workshop.',
+  },
+};
+export function ServicePhoto({ page }: { page: ContentPage }) {
+  const photo =
+    cardPhotos[page.slug] ||
+    (page.slug === 'it-services'
+      ? cardPhotos['software-delivery-productivity']
+      : page.slug === 'smes'
+        ? cardPhotos['ai-opportunity-assessment']
+        : cardPhotos['implementation-adoption']);
+  const imageUrl = (width: number) =>
+    `https://images.pexels.com${photo.path}?auto=compress&cs=tinysrgb&w=${width}&q=80`;
   return (
-    <div className={`service-art art-${index % 3}`} aria-hidden="true">
-      <span className="art-orbit" />
-      <span className="art-orbit second" />
-      <span className="art-core" />
-      <span className="art-grid" />
-      <span className="art-caption">
-        {['SEE THE WHOLE SYSTEM', 'DESIGN BETTER FLOW', 'DISCOVER WHAT’S POSSIBLE'][index % 3]}
-      </span>
+    <div className="service-photo">
+      <img
+        src={imageUrl(800)}
+        srcSet={`${imageUrl(480)} 480w, ${imageUrl(800)} 800w, ${imageUrl(1200)} 1200w`}
+        sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1000px) 45vw, 31vw"
+        alt={photo.alt}
+        width={1200}
+        height={800}
+        loading="lazy"
+        decoding="async"
+      />
     </div>
   );
 }
@@ -98,7 +140,7 @@ export function ServiceCards({ pages }: { pages: ContentPage[] }) {
     <div className="service-grid">
       {pages.map((page, i) => (
         <Link href={pagePath(page)} className="service-card" key={page.id}>
-          <ServiceArt index={i} />
+          <ServicePhoto page={page} />
           <div className="service-card-body">
             <p className="card-index">
               0{i + 1} / {page.type === 'service' ? 'CAPABILITY' : page.type.toUpperCase()}
