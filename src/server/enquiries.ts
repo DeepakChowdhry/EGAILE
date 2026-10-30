@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { additionalIndustries, additionalServices, processAreas } from '@/lib/enquiry-options';
 import { createHash, createHmac, randomBytes, randomUUID } from 'node:crypto';
 import { transaction, readStore, backend, type RecordData } from './db';
 import { readContent } from './content-repository';
@@ -14,15 +15,11 @@ export const enquirySchema = z
     service: z.string().max(90).optional(),
     industry: z.string().max(90).optional(),
     processArea: z
-      .enum([
-        '',
-        'software-delivery',
-        'operations',
-        'reporting',
-        'customer-handling',
-        'administration',
-        'other',
-      ])
+      .string()
+      .refine(
+        (value) => value === '' || processAreas.some((option) => option.value === value),
+        'Select a valid process area.',
+      )
       .optional(),
     country: z.enum(['', 'IN', 'OTHER']).optional(),
     privacy: z.literal(true),
@@ -45,7 +42,13 @@ export async function acceptEnquiry(input: unknown, key: string, ip: string) {
   const industry = site.pages.find(
     (p) => p.type === 'industry' && p.published && p.slug === body.industry,
   );
-  if ((body.service && !service) || (body.industry && !industry)) throw new Error('INVALID_BODY');
+  const additionalService = additionalServices.find((option) => option.value === body.service);
+  const additionalIndustry = additionalIndustries.find((option) => option.value === body.industry);
+  if (
+    (body.service && !service && !additionalService) ||
+    (body.industry && !industry && !additionalIndustry)
+  )
+    throw new Error('INVALID_BODY');
   if (backend() === 'firebase' && !process.env.RATE_LIMIT_SECRET)
     throw new Error('RATE_LIMIT_CONFIGURATION_REQUIRED');
   const now = new Date().toISOString(),
@@ -75,8 +78,8 @@ export async function acceptEnquiry(input: unknown, key: string, ip: string) {
       body: {
         ...body,
         serviceId: service?.id || '',
-        serviceLabel: service?.title || 'Not sure',
-        industryLabel: industry?.title || 'Not specified',
+        serviceLabel: service?.title || additionalService?.label || 'Not sure',
+        industryLabel: industry?.title || additionalIndustry?.label || 'Not specified',
       },
       status: 'New',
       created_at: now,

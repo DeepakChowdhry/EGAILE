@@ -239,3 +239,27 @@ test('production cannot silently fall back to the local database', async () => {
     Object.assign(process.env, { NODE_ENV: environment, EGAILE_BACKEND: mode });
   }
 });
+
+test('expanded enquiry options are accepted, labelled and stored; unknown options are rejected', async () => {
+  const input = {
+    ...enquiry,
+    service: 'team-training',
+    industry: 'healthcare',
+    processArea: 'finance',
+  };
+  const receipt = await acceptEnquiry(input, randomUUID(), 'expanded-options-visitor');
+  const saved = (await listEnquiries()).find((row) => row.reference === receipt.reference);
+  assert.ok(saved);
+  assert.equal(saved.body.serviceLabel, 'Team training and technology adoption');
+  assert.equal(saved.body.industryLabel, 'Healthcare and clinics');
+  assert.equal(saved.body.country, 'IN');
+  assert.equal(
+    enquirySchema.safeParse({ ...input, processArea: 'unknown-process' }).success,
+    false,
+  );
+  await assert.rejects(
+    () =>
+      acceptEnquiry({ ...input, industry: 'unknown-industry' }, randomUUID(), 'invalid-options'),
+    /INVALID_BODY/,
+  );
+});

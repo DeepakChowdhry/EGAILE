@@ -2,6 +2,7 @@ import { readContent } from '@/server/content-repository';
 import { Shell } from '@/components/Site';
 import { EnquiryForm } from '@/components/EnquiryForm';
 import { backend } from '@/server/db';
+import { SupportContact } from '@/components/SupportContact';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Start a conversation' };
 export default async function Page({
@@ -43,6 +44,7 @@ export default async function Page({
               <span>02 / Explore the context</span>
               <span>03 / Agree a suitable next step</span>
             </div>
+            <SupportContact />
             {site.contactEmail && (
               <a className="text-link" href={'mailto:' + site.contactEmail}>
                 {site.contactEmail} ↗
@@ -54,6 +56,17 @@ export default async function Page({
             industries={site.pages.filter((p) => p.type === 'industry' && p.published)}
             selected={service}
             local={backend() === 'local'}
+            onlineAvailable={
+              backend() === 'local'
+                ? process.env.NODE_ENV !== 'production'
+                : !!(
+                    process.env.NEXT_PUBLIC_RECAPTCHA_ENTERPRISE_SITE_KEY &&
+                    process.env.NEXT_PUBLIC_BACKEND === 'firebase' &&
+                    process.env.PUBLIC_LAUNCH_APPROVED === 'true' &&
+                    process.env.TRUSTED_CLIENT_IP_HEADER &&
+                    process.env.RATE_LIMIT_SECRET
+                  )
+            }
           />
         </div>
       </section>

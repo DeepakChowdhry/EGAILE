@@ -7,6 +7,7 @@ import { TrafficAnalytics } from './TrafficAnalytics';
 import { AboutEgaile } from './AboutEgaile';
 import { TransformationJourney } from './TransformationJourney';
 import { BrandLogo } from './BrandLogo';
+import { SupportContact } from './SupportContact';
 export function Shell({
   site,
   children,
@@ -63,6 +64,9 @@ export function Footer({ site }: { site: SiteContent }) {
         <Link href="/contact" className="footer-conversation">
           Let’s start a conversation ↗
         </Link>
+      </div>
+      <div className="container">
+        <SupportContact />
       </div>
       <div className="container footer-bottom">
         <span>India</span>

@@ -2,21 +2,30 @@
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import type { ContentPage } from '@/lib/content';
+import {
+  additionalIndustries,
+  additionalServices,
+  processAreas,
+  supportWhatsApp,
+} from '@/lib/enquiry-options';
 export function EnquiryForm({
   services,
   industries,
   selected = '',
   local,
+  onlineAvailable = false,
 }: {
   services: ContentPage[];
   industries: ContentPage[];
   selected?: string;
   local: boolean;
+  onlineAvailable?: boolean;
 }) {
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(''),
     [fields, setFields] = useState<Record<string, string>>({}),
-    [reference, setReference] = useState('');
+    [reference, setReference] = useState(''),
+    [whatsAppDraft, setWhatsAppDraft] = useState('');
   const summary = useRef<HTMLDivElement>(null);
   const attempt = useRef({ payload: '', key: '' });
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -39,6 +48,34 @@ export function EnquiryForm({
       sourcePath: '/contact',
       website: String(fd.get('website') || ''),
     };
+    const optionLabel = (name: string) => {
+      const select = event.currentTarget.elements.namedItem(name) as HTMLSelectElement;
+      return select.selectedOptions[0]?.textContent || 'Not specified';
+    };
+    const draft =
+      supportWhatsApp +
+      '?text=' +
+      encodeURIComponent(
+        [
+          'Hello Support Team, I would like to discuss a business enquiry.',
+          `Name: ${body.name}`,
+          `Email: ${body.email}`,
+          `Company: ${body.company}`,
+          'Country: India',
+          `Area of interest: ${optionLabel('service')}`,
+          `Industry: ${optionLabel('industry')}`,
+          `Process area: ${optionLabel('processArea')}`,
+          '',
+          body.message,
+        ].join('\n'),
+      );
+    const viaWhatsApp =
+      (event.nativeEvent as SubmitEvent).submitter?.getAttribute('value') === 'whatsapp';
+    if (!onlineAvailable || viaWhatsApp) {
+      setWhatsAppDraft(draft);
+      setBusy(false);
+      return;
+    }
     const payload = JSON.stringify(body);
     if (attempt.current.payload !== payload)
       attempt.current = { payload, key: crypto.randomUUID() };
@@ -66,13 +103,30 @@ export function EnquiryForm({
         );
       }
       setReference(data.reference);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Please retry.');
+    } catch {
+      setError(
+        'We couldn’t save your enquiry online. Your details are still here. Please retry or use the WhatsApp option below.',
+      );
       requestAnimationFrame(() => summary.current?.focus());
     } finally {
       setBusy(false);
     }
   }
+  const whatsAppReview = whatsAppDraft ? (
+    <div className="receipt-panel" role="status">
+      <h2>Your WhatsApp enquiry is ready</h2>
+      <p>
+        Open WhatsApp to review your details and press Send to share them with the Support Team.
+        Your enquiry has not been sent or saved online yet.
+      </p>
+      <a className="button primary" href={whatsAppDraft} target="_blank" rel="noopener noreferrer">
+        Review and send in WhatsApp
+      </a>
+      <button className="text-link" type="button" onClick={() => setWhatsAppDraft('')}>
+        Edit enquiry
+      </button>
+    </div>
+  ) : null;
   if (reference)
     return (
       <div className="receipt-panel" role="status">
@@ -99,142 +153,178 @@ export function EnquiryForm({
       </div>
     );
   return (
-    <form onSubmit={submit} className="enquiry-form">
-      <div
-        ref={summary}
-        tabIndex={-1}
-        role={error ? 'alert' : undefined}
-        className={error ? 'form-error' : ''}
-      >
-        {error}
-      </div>
-      <div className="form-grid">
-        {[
-          ['name', 'Your name', 'text', 100],
-          ['email', 'Email address', 'email', 254],
-          ['company', 'Company or organisation', 'text', 150],
-        ].map(([name, label, type, max]) => (
-          <label className={name === 'company' ? 'field full' : 'field'} key={name}>
+    <div className="enquiry-form">
+      {whatsAppReview}
+      <form onSubmit={submit} hidden={!!whatsAppDraft}>
+        {!onlineAvailable && (
+          <p className="form-notice">
+            Send your enquiry to our Support Team on WhatsApp. Complete the form, then review and
+            send your message in WhatsApp.
+          </p>
+        )}
+        <div
+          ref={summary}
+          tabIndex={-1}
+          role={error ? 'alert' : undefined}
+          className={error ? 'form-error' : ''}
+        >
+          {error}
+        </div>
+        <div className="form-grid">
+          {[
+            ['name', 'Your name', 'text', 100],
+            ['email', 'Email address', 'email', 254],
+            ['company', 'Company or organisation', 'text', 150],
+          ].map(([name, label, type, max]) => (
+            <label className={name === 'company' ? 'field full' : 'field'} key={name}>
+              <span>
+                {label} <small>Required</small>
+              </span>
+              <input
+                name={String(name)}
+                type={String(type)}
+                required
+                minLength={name === 'email' ? undefined : 2}
+                maxLength={Number(max)}
+                autoComplete={
+                  name === 'name' ? 'name' : name === 'email' ? 'email' : 'organization'
+                }
+                aria-invalid={!!fields[String(name)]}
+                aria-describedby={fields[String(name)] ? `${name}-error` : undefined}
+              />
+              {fields[String(name)] && (
+                <small className="field-error" id={`${name}-error`}>
+                  {fields[String(name)]}
+                </small>
+              )}
+            </label>
+          ))}
+          <label className="field">
             <span>
-              {label} <small>Required</small>
+              Area of interest <small>Optional</small>
             </span>
-            <input
-              name={String(name)}
-              type={String(type)}
-              required
-              minLength={name === 'email' ? undefined : 2}
-              maxLength={Number(max)}
-              autoComplete={name === 'name' ? 'name' : name === 'email' ? 'email' : 'organization'}
-              aria-invalid={!!fields[String(name)]}
-              aria-describedby={fields[String(name)] ? `${name}-error` : undefined}
-            />
-            {fields[String(name)] && (
-              <small className="field-error" id={`${name}-error`}>
-                {fields[String(name)]}
-              </small>
-            )}
+            <select
+              name="service"
+              defaultValue={services.some((p) => p.slug === selected) ? selected : ''}
+            >
+              <option value="">Let’s explore together</option>
+              {additionalServices
+                .filter((option) => !services.some((p) => p.slug === option.value))
+                .map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              {services.map((p) => (
+                <option key={p.id} value={p.slug}>
+                  {p.title.replace(/\n/g, ' ')}
+                </option>
+              ))}
+            </select>
           </label>
-        ))}
-        <label className="field">
+          <label className="field">
+            <span>
+              Country <small>Optional</small>
+            </span>
+            <input name="country" type="hidden" value="IN" />
+            <input aria-label="Country" value="India" readOnly autoComplete="country-name" />
+          </label>
+          <label className="field">
+            <span>
+              Industry <small>Optional</small>
+            </span>
+            <select name="industry">
+              <option value="">Other / not sure</option>
+              {additionalIndustries
+                .filter((option) => !industries.some((p) => p.slug === option.value))
+                .map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              {industries.map((p) => (
+                <option key={p.id} value={p.slug}>
+                  {p.title.replace(/\n/g, ' ')}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="field">
+            <span>
+              Process area <small>Optional</small>
+            </span>
+            <select name="processArea">
+              <option value="">Not sure yet</option>
+              {processAreas.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="field full">
+            <span>
+              What would you like to change? <small>Required</small>
+            </span>
+            <textarea
+              name="message"
+              required
+              minLength={20}
+              maxLength={3000}
+              rows={5}
+              placeholder="Tell us about the business problem or opportunity."
+              aria-invalid={!!fields.message}
+              aria-describedby="message-help message-error"
+            />
+            <small id="message-help">
+              20–3,000 characters. Avoid confidential records and sensitive personal information.
+            </small>
+            <small id="message-error" className="field-error">
+              {fields.message}
+            </small>
+          </label>
+        </div>
+        <div className="honeypot" aria-hidden="true">
+          <label>
+            Leave this empty
+            <input name="website" autoComplete="off" tabIndex={-1} />
+          </label>
+        </div>
+        <label className="privacy-check">
+          <input type="checkbox" name="privacy" required />
           <span>
-            Area of interest <small>Optional</small>
+            I acknowledge the{' '}
+            <Link href="/privacy" target="_blank">
+              privacy information
+            </Link>{' '}
+            about this enquiry. This does not subscribe me to marketing.
           </span>
-          <select
-            name="service"
-            defaultValue={services.some((p) => p.slug === selected) ? selected : ''}
+        </label>
+        <button disabled={busy} className="button primary" type="submit">
+          {busy
+            ? 'Saving your enquiry…'
+            : onlineAvailable
+              ? 'Submit enquiry'
+              : 'Continue to WhatsApp'}
+          <span aria-hidden="true">↗</span>
+        </button>
+        {onlineAvailable && (
+          <button
+            className="button whatsapp-button"
+            type="submit"
+            name="delivery"
+            value="whatsapp"
+            disabled={busy}
           >
-            <option value="">Let’s explore together</option>
-            {services.map((p) => (
-              <option key={p.id} value={p.slug}>
-                {p.title.replace(/\n/g, ' ')}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="field">
-          <span>
-            Country <small>Optional</small>
-          </span>
-          <select name="country">
-            <option value="">Select your country</option>
-            <option value="IN">India</option>
-            <option value="OTHER">Other</option>
-          </select>
-        </label>
-        <label className="field">
-          <span>
-            Industry <small>Optional</small>
-          </span>
-          <select name="industry">
-            <option value="">Other / not sure</option>
-            {industries.map((p) => (
-              <option key={p.id} value={p.slug}>
-                {p.title.replace(/\n/g, ' ')}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="field">
-          <span>
-            Process area <small>Optional</small>
-          </span>
-          <select name="processArea">
-            <option value="">Not sure yet</option>
-            <option value="software-delivery">Software delivery</option>
-            <option value="operations">Operations</option>
-            <option value="reporting">Reporting</option>
-            <option value="customer-handling">Customer handling</option>
-            <option value="administration">Administration</option>
-            <option value="other">Other</option>
-          </select>
-        </label>
-        <label className="field full">
-          <span>
-            What would you like to change? <small>Required</small>
-          </span>
-          <textarea
-            name="message"
-            required
-            minLength={20}
-            maxLength={3000}
-            rows={5}
-            placeholder="Tell us about the business problem or opportunity."
-            aria-invalid={!!fields.message}
-            aria-describedby="message-help message-error"
-          />
-          <small id="message-help">
-            20–3,000 characters. Avoid confidential records and sensitive personal information.
-          </small>
-          <small id="message-error" className="field-error">
-            {fields.message}
-          </small>
-        </label>
-      </div>
-      <div className="honeypot" aria-hidden="true">
-        <label>
-          Leave this empty
-          <input name="website" autoComplete="off" tabIndex={-1} />
-        </label>
-      </div>
-      <label className="privacy-check">
-        <input type="checkbox" name="privacy" required />
-        <span>
-          I acknowledge the{' '}
-          <Link href="/privacy" target="_blank">
-            privacy information
-          </Link>{' '}
-          about this enquiry. This does not subscribe me to marketing.
-        </span>
-      </label>
-      <button disabled={busy} className="button primary" type="submit">
-        {busy ? 'Saving your enquiry…' : 'Start the conversation'}
-        <span aria-hidden="true">↗</span>
-      </button>
-      <p className="form-note">
-        {local
-          ? 'Local evaluation: submissions are stored on this computer. Please use test information.'
-          : 'Your submission is a request for a conversation, not a confirmed appointment.'}
-      </p>
-    </form>
+            Send via WhatsApp instead
+          </button>
+        )}
+        <p className="form-note">
+          {local
+            ? 'Local evaluation: submissions are stored on this computer. Please use test information.'
+            : 'Your submission is a request for a conversation, not a confirmed appointment.'}
+        </p>
+      </form>
+    </div>
   );
 }
